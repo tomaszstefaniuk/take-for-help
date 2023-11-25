@@ -10,11 +10,11 @@
     "next", // Uses the recommended rules from eslint-config-next
     "next/core-web-vitals", // Uses the recommended rules for Core Web Vitals
     "eslint:recommended", // Uses the recommended rules from ESLint
-    "plugin:react/recommended", // Uses the recommended rules from eslint-plugin-react
     "plugin:jsx-a11y/recommended", // Uses the recommended rules from eslint-plugin-jsx-a11y
     "plugin:react/jsx-runtime", // JSX runtime plugin for improved JSX handling
     "plugin:@typescript-eslint/recommended", // Uses the recommended rules from the @typescript-eslint/eslint-plugin
-    "prettier" // Enables eslint-plugin-prettier to display Prettier errors as ESLint errors
+    "prettier", // Enables eslint-plugin-prettier to display Prettier errors as ESLint errors
+    "plugin:react/recommended" // Uses the recommended rules from eslint-plugin-react
   ],
   "parserOptions": {
     "ecmaVersion": 2023,
@@ -28,11 +28,12 @@
     "@typescript-eslint",
     "react-hooks",
     "jsx-a11y",
-    "prettier",
-    "import"
+    "import",
+    "prettier"
   ],
   "rules": {
     "react-hooks/exhaustive-deps": "warn",
+    "no-duplicate-imports": "error",
     "newline-before-return": 1,
     "prettier/prettier": [
       "error",
@@ -41,6 +42,7 @@
         "usePrettierrc": true
       }
     ],
+    "react/react-in-jsx-scope": "off",
     "import/order": [
       "error",
       {

@@ -1,7 +1,7 @@
-import React, { FC } from "react";
-import Head from "next/head";
-import { AppProps } from "next/app";
 import { CssBaseline, ThemeProvider } from "@mui/material";
+import { AppProps } from "next/app";
+import Head from "next/head";
+import React, { FC } from "react";
 import { CleanLayout } from "@/components/templates";
 import { theme } from "@/styles/theme";
 

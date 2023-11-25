@@ -1,5 +1,5 @@
-import { Header } from "@/components/organisms/Header";
 import { FC, PropsWithChildren } from "react";
+import { Header } from "@/components/organisms/Header";
 
 export const CleanLayout: FC<PropsWithChildren<unknown>> = ({
   children,
