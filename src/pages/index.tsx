@@ -1,3 +1,3 @@
-import { HomePage } from "@/components/organisms";
+import { HomePage } from "@/components/templates";
 
 export default HomePage;
