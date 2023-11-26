@@ -1,5 +1,6 @@
+import { Container } from "@mui/material";
 import { FC, PropsWithChildren } from "react";
-import { Header } from "@/components/organisms/Header";
+import { Header } from "@/components/organisms";
 
 export const CleanLayout: FC<PropsWithChildren<unknown>> = ({
   children,
@@ -7,7 +8,7 @@ export const CleanLayout: FC<PropsWithChildren<unknown>> = ({
   return (
     <>
       <Header />
-      <main>{children}</main>
+      <Container component="main">{children}</Container>
     </>
   );
 };
