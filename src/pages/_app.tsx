@@ -4,6 +4,7 @@ import Head from "next/head";
 import React, { FC } from "react";
 import { CleanLayout } from "@/components/templates";
 import { theme } from "@/styles/theme";
+import "../../public/fonts.css";
 
 const MyApp: FC<AppProps> = ({ Component, pageProps }: AppProps) => {
   return (
@@ -11,12 +12,14 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }: AppProps) => {
       <Head>
         <title>Take For Help</title>
       </Head>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <CleanLayout>
-          <Component {...pageProps} />
-        </CleanLayout>
-      </ThemeProvider>
+      <React.StrictMode>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <CleanLayout>
+            <Component {...pageProps} />
+          </CleanLayout>
+        </ThemeProvider>
+      </React.StrictMode>
     </>
   );
 };
