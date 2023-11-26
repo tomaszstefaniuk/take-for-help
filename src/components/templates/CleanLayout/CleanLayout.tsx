@@ -8,9 +8,7 @@ export const CleanLayout: FC<PropsWithChildren<unknown>> = ({
   return (
     <>
       <Header />
-      <Container>
-        <main>{children}</main>
-      </Container>
+      <Container component="main">{children}</Container>
     </>
   );
 };
