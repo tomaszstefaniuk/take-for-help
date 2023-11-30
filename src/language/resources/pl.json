@@ -1,0 +1,18 @@
+{
+  "translation": {
+    "general": {
+      "email": "Email",
+      "password": "Hasło"
+    },
+    "errors": {
+      "emailWithPlusSign": "Proszę wprowadzić email bez znaku +",
+      "requiredField": "{{fieldName}} jest wymaganym polem",
+      "maxAmountOfCharacters": "{{fieldName}} nie moze mieć więcej {{number}} znaków"
+    },
+    "auth": {
+      "signIn": {
+        "signIn": "Zaloguj się"
+      }
+    }
+  }
+}

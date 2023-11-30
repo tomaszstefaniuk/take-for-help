@@ -5,8 +5,14 @@ import React, { FC } from "react";
 import { CleanLayout } from "@/components/templates";
 import { theme } from "@/styles/theme";
 import "../../public/fonts.css";
+import { AppWithLayout } from "@/types/layout";
 
-const MyApp: FC<AppProps> = ({ Component, pageProps }: AppProps) => {
+const MyApp: FC<AppProps> = ({
+  Component,
+  pageProps,
+}: AppProps & AppWithLayout) => {
+  const AppLayout = Component.Layout || CleanLayout;
+
   return (
     <>
       <Head>
@@ -15,9 +21,9 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }: AppProps) => {
       <React.StrictMode>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <CleanLayout>
+          <AppLayout>
             <Component {...pageProps} />
-          </CleanLayout>
+          </AppLayout>
         </ThemeProvider>
       </React.StrictMode>
     </>

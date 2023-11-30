@@ -1,0 +1,13 @@
+{
+  "defaultLanguage": "en",
+  "languageList": {
+    "en": {
+      "text": "english",
+      "flag": "🇬🇧"
+    },
+    "pl": {
+      "text": "polish",
+      "flag": "🇵🇱"
+    }
+  }
+}
