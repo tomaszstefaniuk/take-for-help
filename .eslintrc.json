@@ -35,13 +35,6 @@
     "react-hooks/exhaustive-deps": "warn",
     "no-duplicate-imports": "error",
     "newline-before-return": 1,
-    "prettier/prettier": [
-      "error",
-      {},
-      {
-        "usePrettierrc": true
-      }
-    ],
     "react/react-in-jsx-scope": "off",
     "import/order": [
       "error",

@@ -1,3 +1,5 @@
-import { HomePage } from "@/components/templates";
+import { AuthLayout, AuthPage } from "@/components/templates";
 
-export default HomePage;
+AuthPage.Layout = AuthLayout;
+
+export default AuthPage;

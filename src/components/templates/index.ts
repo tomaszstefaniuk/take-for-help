@@ -1,2 +1,5 @@
-export { CleanLayout } from "./CleanLayout/CleanLayout";
+export { AuthLayout } from "./AuthLayout";
+export { CleanLayout } from "./CleanLayout";
+export { DashboardLayout } from "./DashboardLayout";
 export { HomePage } from "./HomePage";
+export { AuthPage } from "./AuthPage";

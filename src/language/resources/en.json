@@ -1,0 +1,17 @@
+{
+  "translation": {
+    "general": {
+      "email": "Email",
+      "password": "Password"
+    },
+    "errors": {
+      "requiredField": "{{fieldName}} is a required field",
+      "maxAmountOfCharacters": "{{fieldName}} must be at most {{number}} characters"
+    },
+    "auth": {
+      "signIn": {
+        "signIn": "Sign In"
+      }
+    }
+  }
+}
