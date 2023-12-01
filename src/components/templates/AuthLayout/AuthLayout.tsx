@@ -33,7 +33,7 @@ export const AuthLayout: FC<PropsWithChildren<unknown>> = ({
         >
           {children}
         </Box>
-        <Box component="footer" display="flex" justifyContent="center" gap={2}>
+        <Box component="footer" display="flex" justifyContent="center" gap={4}>
           {footerItems.map((item) => (
             <TextLink key={item.label}>{item.label}</TextLink>
           ))}

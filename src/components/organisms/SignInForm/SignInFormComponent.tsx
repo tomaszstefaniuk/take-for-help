@@ -119,11 +119,21 @@ export const SignInFormComponent: FC<Props> = ({
         >
           Continue
         </Button>
-        <Box sx={{ alignSelf: "center", display: "flex", marginTop: 0.75 }}>
+        <Box
+          sx={{
+            alignSelf: "center",
+            display: "flex",
+            alignItems: "center",
+            marginTop: 0.75,
+          }}
+        >
           <Typography variant="subtitle1" color="text.disabled">
             Not a Member yet?
           </Typography>
-          <TextLink lighterOnHover sx={{ fontSize: "0.875rem" }}>
+          <TextLink
+            lighterOnHover
+            sx={{ fontSize: "0.875rem", marginLeft: 0.5 }}
+          >
             Sign up
           </TextLink>
         </Box>
