@@ -1,60 +1,38 @@
-import { yupResolver } from "@hookform/resolvers/yup";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Divider, Typography } from "@mui/material";
+import { TFunction } from "i18next";
 import { FC } from "react";
-import { useForm, Controller } from "react-hook-form";
-import * as yup from "yup";
+import {
+  Controller,
+  UseFormHandleSubmit,
+  Control,
+  FormState,
+  SubmitHandler,
+} from "react-hook-form";
+
 import {
   IconApple,
   OutlineButton,
-  TextBetweenLines,
-  TextButton,
   TextField,
+  TextLink,
 } from "@/components/atoms";
-import { useLanguage } from "@/language";
+
 import { FormData } from "./types";
 
 type Props = {
-  onSubmit: (data: FormData) => void;
+  onSubmit: SubmitHandler<FormData>;
+  control: Control<FormData, unknown>;
+  formState: FormState<FormData>;
+  handleSubmit: UseFormHandleSubmit<FormData, undefined>;
+  t: TFunction<"translation", undefined>;
 };
 
-export const SignInFormComponent: FC<Props> = ({ onSubmit }) => {
-  const { t } = useLanguage();
-
-  const schema = yup.object({
-    email: yup
-      .string()
-      .email()
-      .required(
-        t("errors.requiredField", {
-          fieldName: t("general.email"),
-        })
-      )
-      .test({
-        message: () => t("errors.emailWithPlusSign"),
-        test: (value = "") => {
-          return !value.includes("+");
-        },
-      })
-      .label(t("general.email")),
-    password: yup
-      .string()
-      .required(
-        t("errors.requiredField", {
-          fieldName: t("general.password"),
-        })
-      )
-      .label(t("general.password")),
-  });
-
-  const { control, formState, handleSubmit } = useForm<FormData>({
-    mode: "onChange",
-    resolver: yupResolver(schema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
-
+export const SignInFormComponent: FC<Props> = ({
+  onSubmit,
+  control,
+  formState,
+  handleSubmit,
+  t,
+}) => {
   return (
     <Box display="flex" flexDirection="column" alignItems="center">
       <Typography variant="h2" color="text.secondary" marginBottom={1.2}>
@@ -79,7 +57,19 @@ export const SignInFormComponent: FC<Props> = ({ onSubmit }) => {
           </OutlineButton>
         </Box>
       </Box>
-      <TextBetweenLines text="Or with email" />
+      <Box width="100%">
+        <Divider>
+          <Typography
+            variant="subtitle2"
+            minWidth="max-content"
+            marginX={1.5}
+            color="text.disabled"
+            fontWeight="medium"
+          >
+            Or with email
+          </Typography>
+        </Divider>
+      </Box>
       <Box
         component="form"
         width="100%"
@@ -110,15 +100,16 @@ export const SignInFormComponent: FC<Props> = ({ onSubmit }) => {
               <TextField
                 {...field}
                 id="password"
+                type="password"
                 label={t("general.password")}
                 // helperText={fieldState.error?.message}
               />
             )}
           />
         </Box>
-        <TextButton lighterOnHover sx={{ alignSelf: "flex-end", marginTop: 1 }}>
+        <TextLink lighterOnHover sx={{ alignSelf: "flex-end", marginTop: 1 }}>
           Forgot Password ?
-        </TextButton>
+        </TextLink>
         <Button
           variant="contained"
           color="secondary"
@@ -132,9 +123,9 @@ export const SignInFormComponent: FC<Props> = ({ onSubmit }) => {
           <Typography variant="subtitle1" color="text.disabled">
             Not a Member yet?
           </Typography>
-          <TextButton lighterOnHover sx={{ fontSize: "0.875rem" }}>
+          <TextLink lighterOnHover sx={{ fontSize: "0.875rem" }}>
             Sign up
-          </TextButton>
+          </TextLink>
         </Box>
       </Box>
     </Box>

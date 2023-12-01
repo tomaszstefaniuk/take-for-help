@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import Image from "next/image";
 import { FC, PropsWithChildren } from "react";
-import { TextButton } from "@/components/atoms";
+import { TextLink } from "@/components/atoms";
 
 const footerItems = [
   { label: "Terms" },
@@ -35,7 +35,7 @@ export const AuthLayout: FC<PropsWithChildren<unknown>> = ({
         </Box>
         <Box component="footer" display="flex" justifyContent="center" gap={2}>
           {footerItems.map((item) => (
-            <TextButton key={item.label}>{item.label}</TextButton>
+            <TextLink key={item.label}>{item.label}</TextLink>
           ))}
         </Box>
       </Box>

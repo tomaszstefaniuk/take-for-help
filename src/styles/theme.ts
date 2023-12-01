@@ -86,5 +86,17 @@ export const theme = createTheme({
         },
       },
     },
+    MuiDivider: {
+      styleOverrides: {
+        root: {
+          "&:before": {
+            borderColor: "#F1F1F4",
+          },
+          "&:after": {
+            borderColor: "#F1F1F4",
+          },
+        },
+      },
+    },
   },
 });
