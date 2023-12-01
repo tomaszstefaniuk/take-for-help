@@ -7,7 +7,7 @@ type Props = InputProps & {
   ref: ForwardedRef<HTMLInputElement>;
 };
 
-export const Field = (
+const Field = (
   { id, label, ...rest }: Props,
   ref: ForwardedRef<HTMLInputElement>
 ) => {

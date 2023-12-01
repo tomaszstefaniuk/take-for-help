@@ -20,10 +20,10 @@ import { FormData } from "./types";
 
 type Props = {
   onSubmit: SubmitHandler<FormData>;
-  control: Control<FormData, unknown>;
+  control: Control<FormData>;
   formState: FormState<FormData>;
-  handleSubmit: UseFormHandleSubmit<FormData, undefined>;
-  t: TFunction<"translation", undefined>;
+  handleSubmit: UseFormHandleSubmit<FormData>;
+  t: TFunction;
 };
 
 export const SignInFormComponent: FC<Props> = ({
