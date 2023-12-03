@@ -1,8 +1,12 @@
 {
   "translation": {
     "general": {
+      "firstName": "First name",
+      "lastName": "Last name",
       "email": "Email",
-      "password": "Password"
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "passwordConfirmation": "Password confirmation"
     },
     "errors": {
       "requiredField": "{{fieldName}} is a required field",

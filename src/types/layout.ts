@@ -1,5 +1,7 @@
+import { FC, PropsWithChildren } from "react";
+
 export type PageWithLayout = {
-  Layout?: React.FC<any>;
+  Layout?: FC<PropsWithChildren<unknown>>;
 };
 
 export type AppWithLayout = {

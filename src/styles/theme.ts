@@ -1,4 +1,5 @@
 import { createTheme } from "@mui/material";
+import { hexToRgba } from "@/utils";
 
 const palette = {
   text: {
@@ -10,8 +11,19 @@ const palette = {
     main: "#4B5675",
   },
   secondary: {
+    light: "#E9F3FF",
     main: "#1B84FF",
     dark: "#1565c0",
+  },
+  success: {
+    main: "#17C653",
+  },
+  error: {
+    main: "#F8285A",
+  },
+  action: {
+    disabled: "#fff",
+    disabledBackground: hexToRgba("#1B84FF", 0.65),
   },
   grey: {
     100: "#F9F9F9",
@@ -57,6 +69,13 @@ export const theme = createTheme({
     },
   },
   components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        a: {
+          textDecoration: "none",
+        },
+      },
+    },
     MuiButton: {
       styleOverrides: {
         root: {
@@ -83,6 +102,11 @@ export const theme = createTheme({
           paddingBottom: "0.625rem",
           paddingLeft: "0.8125rem",
           paddingRight: "2.6rem",
+          fontWeight: 500,
+          "&::placeholder": {
+            color: "#99A1B7",
+            opacity: 1,
+          },
         },
       },
     },
@@ -95,6 +119,17 @@ export const theme = createTheme({
           "&:after": {
             borderColor: "#F1F1F4",
           },
+        },
+      },
+    },
+    MuiLinearProgress: {
+      styleOverrides: {
+        root: {
+          height: 5,
+          borderRadius,
+        },
+        bar: {
+          borderRadius,
         },
       },
     },
