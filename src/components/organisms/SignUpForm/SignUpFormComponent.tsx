@@ -8,6 +8,7 @@ import {
   SubmitHandler,
   UseFormRegister,
   UseFormWatch,
+  UseFormTrigger,
 } from "react-hook-form";
 
 import {
@@ -28,6 +29,7 @@ type Props = {
   t: TFunction;
   register: UseFormRegister<FormData>;
   watch: UseFormWatch<FormData>;
+  trigger: UseFormTrigger<FormData>;
 };
 
 export const SignUpFormComponent: FC<Props> = ({
@@ -37,6 +39,7 @@ export const SignUpFormComponent: FC<Props> = ({
   t,
   register,
   watch,
+  trigger,
 }) => {
   return (
     <AuthFormLayout title="Sign Up">
@@ -93,6 +96,14 @@ export const SignUpFormComponent: FC<Props> = ({
             label={t("general.password")}
             {...register("password")}
             value={watch("password")}
+            onChange={(e) => {
+              const isConfirmPasswordTouched =
+                formState.touchedFields?.confirmPassword;
+              register("password").onChange(e);
+              if (isConfirmPasswordTouched) {
+                trigger("confirmPassword");
+              }
+            }}
             isError={formState.errors?.password?.message !== undefined}
             isSuccess={
               formState.touchedFields?.password &&

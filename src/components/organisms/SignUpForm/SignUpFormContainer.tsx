@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import validator from "validator";
 import * as yup from "yup";
@@ -112,15 +112,6 @@ export const SignUpFormContainer: FC = () => {
 
   const onSubmit: SubmitHandler<FormData> = (data) => console.log(data);
 
-  const password = watch("password");
-  const isConfirmPasswordTouched = formState.touchedFields?.confirmPassword;
-
-  useEffect(() => {
-    if (isConfirmPasswordTouched) {
-      trigger("confirmPassword");
-    }
-  }, [password, trigger, isConfirmPasswordTouched]);
-
   return (
     <SignUpFormComponent
       onSubmit={onSubmit}
@@ -129,6 +120,7 @@ export const SignUpFormContainer: FC = () => {
       t={t}
       register={register}
       watch={watch}
+      trigger={trigger}
     />
   );
 };
