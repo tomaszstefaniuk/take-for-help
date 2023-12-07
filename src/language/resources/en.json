@@ -10,6 +10,7 @@
     },
     "errors": {
       "requiredField": "{{fieldName}} is a required field",
+      "minAmountOfCharacters": "{{fieldName}} must be at least {{number}} characters",
       "maxAmountOfCharacters": "{{fieldName}} must be at most {{number}} characters"
     },
     "auth": {

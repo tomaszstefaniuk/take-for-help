@@ -20,20 +20,16 @@ export const AuthFormLayout: FC<PropsWithChildren<Props>> = ({
         Your Social Campaigns
       </Typography>
       <Box display="flex" gap={1.25} marginBottom={4.25}>
-        <Box>
-          <OutlineButton
-            startIcon={
-              <Box component="img" src="/icons/google-icon.svg" height="15px" />
-            }
-          >
-            Sign in with Google
-          </OutlineButton>
-        </Box>
-        <Box>
-          <OutlineButton startIcon={<IconApple />}>
-            Sign in with Apple
-          </OutlineButton>
-        </Box>
+        <OutlineButton
+          startIcon={
+            <Box component="img" src="/icons/google-icon.svg" height="15px" />
+          }
+        >
+          Sign in with Google
+        </OutlineButton>
+        <OutlineButton startIcon={<IconApple />}>
+          Sign in with Apple
+        </OutlineButton>
       </Box>
       <Box width="100%">
         <Divider>

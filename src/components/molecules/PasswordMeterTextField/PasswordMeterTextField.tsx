@@ -10,7 +10,7 @@ import {
   LinearProgress,
   Typography,
 } from "@mui/material";
-import { ForwardedRef, forwardRef, useEffect, useState } from "react";
+import { ForwardedRef, forwardRef, useMemo } from "react";
 
 type Props = InputProps & {
   label: string;
@@ -24,8 +24,6 @@ const MeterTextField = (
   { id, label, value, helperText, isError, isSuccess, ...rest }: Props,
   ref: ForwardedRef<HTMLInputElement>
 ) => {
-  const [strength, setStrength] = useState(0);
-
   const calculateStrength = (password: string) => {
     const lengthScore = password.length > 8 ? 1 : 0;
     const uppercaseScore = /[A-Z]/.test(password) ? 1 : 0;
@@ -40,11 +38,13 @@ const MeterTextField = (
     return Math.min(Math.round((totalScore / 4) * 100), 100);
   };
 
-  useEffect(() => {
-    setStrength(calculateStrength(String(value)));
-  }, [value]);
+  const strength = useMemo(
+    () => (typeof value === "string" ? calculateStrength(value) : 0),
+    [value]
+  );
 
   return (
+    // TODO: add FormControl component https://mui.com/material-ui/api/form-control/
     <Box>
       <InputLabel
         htmlFor={id}

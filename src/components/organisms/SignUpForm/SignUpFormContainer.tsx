@@ -1,6 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useRouter } from "next/router";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import validator from "validator";
 import * as yup from "yup";
@@ -55,11 +54,18 @@ export const SignUpFormContainer: FC = () => {
       .label(t("general.email")),
     password: yup
       .string()
+      .min(
+        8,
+        t("errors.minAmountOfCharacters", {
+          fieldName: t("general.password"),
+          number: 8,
+        })
+      )
       .max(
-        30,
+        100,
         t("errors.maxAmountOfCharacters", {
           fieldName: t("general.password"),
-          number: 30,
+          number: 100,
         })
       )
       .required(
@@ -71,10 +77,10 @@ export const SignUpFormContainer: FC = () => {
     confirmPassword: yup
       .string()
       .max(
-        30,
+        100,
         t("errors.maxAmountOfCharacters", {
           fieldName: t("general.confirmPassword"),
-          number: 30,
+          number: 100,
         })
       )
       .required(
@@ -83,7 +89,6 @@ export const SignUpFormContainer: FC = () => {
         })
       )
       .oneOf([yup.ref("password")], "Passwords must match")
-      .required("Confirm Password is required")
       .label(t("general.confirmPassword")),
     acceptTerms: yup
       .boolean()
@@ -91,35 +96,39 @@ export const SignUpFormContainer: FC = () => {
       .oneOf([true], "You must accept the terms"),
   });
 
-  const { control, formState, handleSubmit } = useForm<FormData>({
-    mode: "onChange",
-    resolver: yupResolver(schema),
-    defaultValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-      acceptTerms: false,
-    },
-  });
-
-  const router = useRouter();
+  const { formState, handleSubmit, register, trigger, watch } =
+    useForm<FormData>({
+      mode: "onTouched",
+      resolver: yupResolver(schema),
+      defaultValues: {
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+        acceptTerms: false,
+      },
+    });
 
   const onSubmit: SubmitHandler<FormData> = (data) => console.log(data);
 
-  const onCancelButtonClick = () => {
-    router.push("/sign-in");
-  };
+  const password = watch("password");
+  const isConfirmPasswordTouched = formState.touchedFields?.confirmPassword;
+
+  useEffect(() => {
+    if (isConfirmPasswordTouched) {
+      trigger("confirmPassword");
+    }
+  }, [password, trigger, isConfirmPasswordTouched]);
 
   return (
     <SignUpFormComponent
       onSubmit={onSubmit}
-      control={control}
       formState={formState}
       handleSubmit={handleSubmit}
       t={t}
-      onCancelButtonClick={onCancelButtonClick}
+      register={register}
+      watch={watch}
     />
   );
 };

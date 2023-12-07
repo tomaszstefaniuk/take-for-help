@@ -25,10 +25,10 @@ export const SignInFormContainer: FC = () => {
     password: yup
       .string()
       .max(
-        30,
+        100,
         t("errors.maxAmountOfCharacters", {
           fieldName: t("general.password"),
-          number: 30,
+          number: 100,
         })
       )
       .required(

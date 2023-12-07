@@ -1,12 +1,13 @@
 import { Box, Button, Typography } from "@mui/material";
 import { TFunction } from "i18next";
+import NextLink from "next/link";
 import { FC } from "react";
 import {
-  Controller,
   UseFormHandleSubmit,
-  Control,
   FormState,
   SubmitHandler,
+  UseFormRegister,
+  UseFormWatch,
 } from "react-hook-form";
 
 import {
@@ -22,20 +23,20 @@ import { FormData } from "./types";
 
 type Props = {
   onSubmit: SubmitHandler<FormData>;
-  control: Control<FormData>;
   formState: FormState<FormData>;
   handleSubmit: UseFormHandleSubmit<FormData>;
   t: TFunction;
-  onCancelButtonClick: () => void;
+  register: UseFormRegister<FormData>;
+  watch: UseFormWatch<FormData>;
 };
 
 export const SignUpFormComponent: FC<Props> = ({
   onSubmit,
-  control,
   formState,
   handleSubmit,
   t,
-  onCancelButtonClick,
+  register,
+  watch,
 }) => {
   return (
     <AuthFormLayout title="Sign Up">
@@ -48,114 +49,78 @@ export const SignUpFormComponent: FC<Props> = ({
         onSubmit={handleSubmit(onSubmit)}
       >
         <Box mb={3}>
-          <Controller
-            control={control}
-            name="firstName"
-            render={({ field, fieldState }) => (
-              <TextField
-                {...field}
-                id="firstName"
-                label={t("general.firstName")}
-                isError={fieldState?.isTouched && !!fieldState?.error?.message}
-                isSuccess={
-                  fieldState?.isTouched &&
-                  !fieldState?.invalid &&
-                  fieldState?.isDirty
-                }
-                helperText={fieldState?.error?.message}
-              />
-            )}
+          <TextField
+            id="firstName"
+            label={t("general.firstName")}
+            {...register("firstName")}
+            isError={formState.errors?.firstName?.message !== undefined}
+            isSuccess={
+              formState.touchedFields?.firstName &&
+              formState.errors?.firstName?.message === undefined
+            }
+            helperText={formState.errors?.firstName?.message}
           />
         </Box>
         <Box mb={3}>
-          <Controller
-            control={control}
-            name="lastName"
-            render={({ field, fieldState }) => (
-              <TextField
-                {...field}
-                id="lastName"
-                label={t("general.lastName")}
-                isError={fieldState?.isTouched && fieldState?.invalid}
-                isSuccess={
-                  fieldState?.isTouched &&
-                  !fieldState?.invalid &&
-                  fieldState?.isDirty
-                }
-                helperText={fieldState?.error?.message}
-              />
-            )}
+          <TextField
+            id="lastName"
+            label={t("general.lastName")}
+            {...register("lastName")}
+            isError={formState.errors?.lastName?.message !== undefined}
+            isSuccess={
+              formState.touchedFields?.lastName &&
+              formState.errors?.lastName?.message === undefined
+            }
+            helperText={formState.errors?.lastName?.message}
           />
         </Box>
         <Box mb={3}>
-          <Controller
-            control={control}
-            name="email"
-            render={({ field, fieldState }) => (
-              <TextField
-                {...field}
-                id="email"
-                label={t("general.email")}
-                isError={fieldState?.isTouched && fieldState?.invalid}
-                isSuccess={
-                  fieldState?.isTouched &&
-                  !fieldState?.invalid &&
-                  fieldState?.isDirty
-                }
-                helperText={fieldState?.error?.message}
-              />
-            )}
+          <TextField
+            id="email"
+            label={t("general.email")}
+            {...register("email")}
+            isError={formState.errors?.email?.message !== undefined}
+            isSuccess={
+              formState.touchedFields?.email &&
+              formState.errors?.email?.message === undefined
+            }
+            helperText={formState.errors?.email?.message}
           />
         </Box>
         <Box mb={3}>
-          <Controller
-            control={control}
-            name="password"
-            render={({ field, fieldState }) => (
-              <PasswordMeterTextField
-                {...field}
-                id="password"
-                label={t("general.password")}
-                isError={fieldState?.isTouched && fieldState?.invalid}
-                isSuccess={
-                  fieldState?.isTouched &&
-                  !fieldState?.invalid &&
-                  fieldState?.isDirty
-                }
-                helperText={fieldState?.error?.message}
-              />
-            )}
+          <PasswordMeterTextField
+            id="password"
+            label={t("general.password")}
+            {...register("password")}
+            value={watch("password")}
+            isError={formState.errors?.password?.message !== undefined}
+            isSuccess={
+              formState.touchedFields?.password &&
+              formState.errors?.password?.message === undefined
+            }
+            helperText={formState.errors?.password?.message}
           />
         </Box>
         <Box>
-          <Controller
-            control={control}
-            name="confirmPassword"
-            render={({ field, fieldState }) => (
-              <TextField
-                {...field}
-                id="confirmPassword"
-                type="password"
-                label={t("general.passwordConfirmation")}
-                isError={fieldState?.isTouched && fieldState?.invalid}
-                isSuccess={
-                  fieldState?.isTouched &&
-                  !fieldState?.invalid &&
-                  fieldState?.isDirty
-                }
-                helperText={fieldState?.error?.message}
-              />
-            )}
+          <TextField
+            id="confirmPassword"
+            type="password"
+            label={t("general.passwordConfirmation")}
+            {...register("confirmPassword")}
+            isError={formState.errors?.confirmPassword?.message !== undefined}
+            isSuccess={
+              formState.touchedFields?.confirmPassword &&
+              formState.errors?.confirmPassword?.message === undefined
+            }
+            helperText={formState.errors?.confirmPassword?.message}
           />
         </Box>
         <Box mt={1.5} mb={1} display="flex">
-          <Controller
-            control={control}
-            name="acceptTerms"
-            defaultValue={false}
-            render={({ field }) => (
-              <Checkbox {...field} label="I Accept the" sx={{ marginTop: 2 }} />
-            )}
+          <Checkbox
+            {...register("acceptTerms")}
+            label="I Accept the"
+            sx={{ marginTop: 2 }}
+            value={watch("acceptTerms")}
           />
           <TextLink
             href="#"
@@ -179,7 +144,9 @@ export const SignUpFormComponent: FC<Props> = ({
         >
           Submit
         </Button>
-        <CancelButton onClick={onCancelButtonClick}>Cancel</CancelButton>
+        <NextLink href="/sign-in">
+          <CancelButton fullWidth>Cancel</CancelButton>
+        </NextLink>
       </Box>
     </AuthFormLayout>
   );

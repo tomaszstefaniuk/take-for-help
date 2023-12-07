@@ -36,6 +36,9 @@ export const CheckboxComponent = (
             border: "1px solid",
             borderColor: value ? "secondary.main" : "grey.300",
             marginRight: 1,
+            "&:active": {
+              borderColor: "grey.400",
+            },
             "& .MuiSvgIcon-root": {
               display: "none", // Hide the default checkbox
             },

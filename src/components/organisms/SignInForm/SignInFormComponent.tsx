@@ -109,9 +109,7 @@ export const SignInFormComponent: FC<Props> = ({
             Not a Member yet?
           </Typography>
           <TextLink
-            href="/auth/sign-up"
-            as="/sign-up"
-            passHref
+            href="/sign-up"
             lighterOnHover
             sx={{ fontSize: "0.875rem", marginLeft: 0.5 }}
           >
