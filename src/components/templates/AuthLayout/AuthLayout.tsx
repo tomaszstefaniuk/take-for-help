@@ -15,7 +15,8 @@ export const AuthLayout: FC<PropsWithChildren<unknown>> = ({
   return (
     <Box height="100vh" display="flex">
       <Box
-        height="100%"
+        minHeight="100%"
+        height="max-content"
         width="50vw"
         bgcolor="white"
         zIndex="10"
@@ -30,12 +31,18 @@ export const AuthLayout: FC<PropsWithChildren<unknown>> = ({
           display="flex"
           alignItems="center"
           justifyContent="center"
+          marginTop="auto"
+          marginBottom="auto"
+          paddingTop={4}
+          paddingBottom={6}
         >
           {children}
         </Box>
         <Box component="footer" display="flex" justifyContent="center" gap={4}>
           {footerItems.map((item) => (
-            <TextLink key={item.label}>{item.label}</TextLink>
+            <TextLink href="#" key={item.label}>
+              {item.label}
+            </TextLink>
           ))}
         </Box>
       </Box>
@@ -55,16 +62,17 @@ export const AuthLayout: FC<PropsWithChildren<unknown>> = ({
           display="flex"
           flexDirection="column"
           justifyContent="center"
+          alignItems="center"
         >
           <Box height="500px"></Box>
-          <Box color="white">
+          <Box color="white" maxWidth="460px">
             <Typography align="center" variant="h1" marginBottom={2.7}>
               Fast, Efficient and Productive
             </Typography>
             <Typography align="center" variant="body2">
-              In this kind of post, the bloggerintroduces a person they’ve
-              interviewed and provides some background information aboutthe
-              intervieweeand their work following this is a transcript of the
+              In this kind of post, the blogger introduces a person they’ve
+              interviewed and provides some background information about the
+              interview and their work following this is a transcript of the
               interview.
             </Typography>
           </Box>

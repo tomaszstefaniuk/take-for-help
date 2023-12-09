@@ -24,6 +24,13 @@ export const SignInFormContainer: FC = () => {
       .label(t("general.email")),
     password: yup
       .string()
+      .max(
+        100,
+        t("errors.maxAmountOfCharacters", {
+          fieldName: t("general.password"),
+          number: 100,
+        })
+      )
       .required(
         t("errors.requiredField", {
           fieldName: t("general.password"),

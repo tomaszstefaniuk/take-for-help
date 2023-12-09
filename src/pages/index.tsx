@@ -1,5 +1,6 @@
-import { AuthLayout, AuthPage } from "@/components/templates";
+import { DashboardLayout, HomePage } from "@/components/templates";
+import { withAuth } from "@/hoc";
 
-AuthPage.Layout = AuthLayout;
+HomePage.Layout = DashboardLayout;
 
-export default AuthPage;
+export default withAuth(HomePage);
