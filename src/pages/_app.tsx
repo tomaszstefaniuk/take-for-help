@@ -2,7 +2,9 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import React, { FC } from "react";
+import { Provider } from "react-redux";
 import { CleanLayout } from "@/components/templates";
+import store from "@/store";
 import { theme } from "@/styles/theme";
 import "../../public/fonts.css";
 import { AppWithLayout } from "@/types/layout";
@@ -19,12 +21,14 @@ const MyApp: FC<AppProps> = ({
         <title>Take For Help</title>
       </Head>
       <React.StrictMode>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <AppLayout>
-            <Component {...pageProps} />
-          </AppLayout>
-        </ThemeProvider>
+        <Provider store={store}>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <AppLayout>
+              <Component {...pageProps} />
+            </AppLayout>
+          </ThemeProvider>
+        </Provider>
       </React.StrictMode>
     </>
   );

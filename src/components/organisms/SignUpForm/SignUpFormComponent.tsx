@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, CircularProgress, Typography } from "@mui/material";
 import { TFunction } from "i18next";
 import NextLink from "next/link";
 import { FC } from "react";
@@ -30,6 +30,8 @@ type Props = {
   register: UseFormRegister<FormData>;
   watch: UseFormWatch<FormData>;
   trigger: UseFormTrigger<FormData>;
+  error?: string;
+  isLoading: boolean;
 };
 
 export const SignUpFormComponent: FC<Props> = ({
@@ -40,9 +42,11 @@ export const SignUpFormComponent: FC<Props> = ({
   register,
   watch,
   trigger,
+  error,
+  isLoading,
 }) => {
   return (
-    <AuthFormLayout title="Sign Up">
+    <AuthFormLayout title="Sign Up" error={error}>
       <Box
         component="form"
         width="100%"
@@ -97,11 +101,11 @@ export const SignUpFormComponent: FC<Props> = ({
             {...register("password")}
             value={watch("password")}
             onChange={(e) => {
-              const isConfirmPasswordTouched =
-                formState.touchedFields?.confirmPassword;
+              const isPasswordConfirmTouched =
+                formState.touchedFields?.passwordConfirm;
               register("password").onChange(e);
-              if (isConfirmPasswordTouched) {
-                trigger("confirmPassword");
+              if (isPasswordConfirmTouched) {
+                trigger("passwordConfirm");
               }
             }}
             isError={formState.errors?.password?.message !== undefined}
@@ -114,16 +118,16 @@ export const SignUpFormComponent: FC<Props> = ({
         </Box>
         <Box>
           <TextField
-            id="confirmPassword"
+            id="passwordConfirm"
             type="password"
             label={t("general.passwordConfirmation")}
-            {...register("confirmPassword")}
-            isError={formState.errors?.confirmPassword?.message !== undefined}
+            {...register("passwordConfirm")}
+            isError={formState.errors?.passwordConfirm?.message !== undefined}
             isSuccess={
-              formState.touchedFields?.confirmPassword &&
-              formState.errors?.confirmPassword?.message === undefined
+              formState.touchedFields?.passwordConfirm &&
+              formState.errors?.passwordConfirm?.message === undefined
             }
-            helperText={formState.errors?.confirmPassword?.message}
+            helperText={formState.errors?.passwordConfirm?.message}
           />
         </Box>
         <Box mt={1.5} mb={1} display="flex">
@@ -151,9 +155,20 @@ export const SignUpFormComponent: FC<Props> = ({
           color="secondary"
           sx={{ my: 2 }}
           type="submit"
-          disabled={!formState.isValid}
+          disabled={!formState.isValid || isLoading}
         >
-          Submit
+          {isLoading ? (
+            <>
+              Please wait...
+              <CircularProgress
+                color="inherit"
+                size="15px"
+                sx={{ position: "absolute", right: "9rem" }}
+              />
+            </>
+          ) : (
+            "Submit"
+          )}
         </Button>
         <NextLink href="/sign-in">
           <CancelButton fullWidth>Cancel</CancelButton>

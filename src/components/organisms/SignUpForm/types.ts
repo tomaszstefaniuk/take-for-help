@@ -3,6 +3,6 @@ export type FormData = {
   lastName: string;
   email: string;
   password: string;
-  confirmPassword: string;
+  passwordConfirm: string;
   acceptTerms: boolean;
 };

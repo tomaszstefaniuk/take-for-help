@@ -16,9 +16,11 @@ const palette = {
     dark: "#1565c0",
   },
   success: {
+    light: "#DFFFEA",
     main: "#17C653",
   },
   error: {
+    light: "#FFEEF3",
     main: "#F8285A",
   },
   action: {
@@ -130,6 +132,24 @@ export const theme = createTheme({
         },
         bar: {
           borderRadius,
+        },
+      },
+    },
+    MuiAlert: {
+      styleOverrides: {
+        root: {
+          borderRadius,
+          "&.MuiAlert-outlinedError": {
+            color: "#F8285A",
+            backgroundColor: "#FFEEF3",
+            borderColor: "#F8285A",
+          },
+          "&.MuiAlert-standardSuccess": {
+            color: "#17C653",
+            backgroundColor: "#DFFFEA",
+            borderColor: "#17C653",
+            padding: "0.75rem",
+          },
         },
       },
     },
