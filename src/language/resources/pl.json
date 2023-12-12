@@ -5,7 +5,7 @@
       "lastName": "Nazwisko",
       "email": "Email",
       "password": "Hasło",
-      "confirmPassword": "Potwierdź hasło"
+      "passwordConfirm": "Potwierdź hasło"
     },
     "errors": {
       "requiredField": "{{fieldName}} jest wymaganym polem",

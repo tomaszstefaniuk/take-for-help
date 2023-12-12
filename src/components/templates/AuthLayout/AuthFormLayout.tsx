@@ -1,15 +1,17 @@
-import { Box, Divider, Typography } from "@mui/material";
+import { Alert, Box, Divider, Stack, Typography } from "@mui/material";
 import { FC, PropsWithChildren } from "react";
 
 import { IconApple, OutlineButton } from "@/components/atoms";
 
 type Props = {
   title: string;
+  error?: string;
 };
 
 export const AuthFormLayout: FC<PropsWithChildren<Props>> = ({
   title,
   children,
+  error,
 }: PropsWithChildren<Props>) => {
   return (
     <Box display="flex" flexDirection="column" alignItems="center">
@@ -44,6 +46,13 @@ export const AuthFormLayout: FC<PropsWithChildren<Props>> = ({
           </Typography>
         </Divider>
       </Box>
+      {error && (
+        <Stack sx={{ width: "100%", marginTop: 5 }} spacing={2}>
+          <Alert variant="outlined" severity="error" icon={false}>
+            {error}
+          </Alert>
+        </Stack>
+      )}
       {children}
     </Box>
   );
