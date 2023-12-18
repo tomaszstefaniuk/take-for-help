@@ -3,32 +3,31 @@ import { TFunction } from "i18next";
 
 import { FC } from "react";
 import {
-  Controller,
   UseFormHandleSubmit,
-  Control,
   FormState,
   SubmitHandler,
+  UseFormRegister,
 } from "react-hook-form";
 
 import { TextField, TextLink } from "@/components/atoms";
 
 import { AuthFormLayout } from "@/components/templates";
-import { FormData } from "./types";
+import { LoginUserPayload } from "@/types/auth";
 
 type Props = {
-  onSubmit: SubmitHandler<FormData>;
-  control: Control<FormData>;
-  formState: FormState<FormData>;
-  handleSubmit: UseFormHandleSubmit<FormData>;
+  onSubmit: SubmitHandler<LoginUserPayload>;
+  formState: FormState<LoginUserPayload>;
+  handleSubmit: UseFormHandleSubmit<LoginUserPayload>;
   t: TFunction;
+  register: UseFormRegister<LoginUserPayload>;
 };
 
 export const SignInFormComponent: FC<Props> = ({
   onSubmit,
-  control,
   formState,
   handleSubmit,
   t,
+  register,
 }) => {
   return (
     <AuthFormLayout title="Sign In">
@@ -41,44 +40,30 @@ export const SignInFormComponent: FC<Props> = ({
         onSubmit={handleSubmit(onSubmit)}
       >
         <Box mb={3}>
-          <Controller
-            control={control}
-            name="email"
-            render={({ field, fieldState }) => (
-              <TextField
-                {...field}
-                id="email"
-                label={t("general.email")}
-                isError={fieldState?.isTouched && fieldState?.invalid}
-                isSuccess={
-                  fieldState?.isTouched &&
-                  !fieldState?.invalid &&
-                  fieldState?.isDirty
-                }
-                helperText={fieldState?.error?.message}
-              />
-            )}
+          <TextField
+            id="email"
+            label={t("general.email")}
+            {...register("email")}
+            isError={formState.errors?.email?.message !== undefined}
+            isSuccess={
+              formState.touchedFields?.email &&
+              formState.errors?.email?.message === undefined
+            }
+            helperText={formState.errors?.email?.message}
           />
         </Box>
         <Box>
-          <Controller
-            control={control}
-            name="password"
-            render={({ field, fieldState }) => (
-              <TextField
-                {...field}
-                id="password"
-                type="password"
-                label={t("general.password")}
-                isError={fieldState?.isTouched && fieldState?.invalid}
-                isSuccess={
-                  fieldState?.isTouched &&
-                  !fieldState?.invalid &&
-                  fieldState?.isDirty
-                }
-                helperText={fieldState?.error?.message}
-              />
-            )}
+          <TextField
+            id="password"
+            type="password"
+            label={t("general.password")}
+            {...register("password")}
+            isError={formState.errors?.password?.message !== undefined}
+            isSuccess={
+              formState.touchedFields?.password &&
+              formState.errors?.password?.message === undefined
+            }
+            helperText={formState.errors?.password?.message}
           />
         </Box>
         <TextLink

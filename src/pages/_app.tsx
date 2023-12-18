@@ -4,6 +4,7 @@ import Head from "next/head";
 import React, { FC } from "react";
 import { Provider } from "react-redux";
 import { CleanLayout } from "@/components/templates";
+import { AuthNavigation } from "@/components/templates/AuthNavigation";
 import store from "@/store";
 import { theme } from "@/styles/theme";
 import "../../public/fonts.css";
@@ -24,9 +25,11 @@ const MyApp: FC<AppProps> = ({
         <Provider store={store}>
           <ThemeProvider theme={theme}>
             <CssBaseline />
-            <AppLayout>
-              <Component {...pageProps} />
-            </AppLayout>
+            <AuthNavigation>
+              <AppLayout>
+                <Component {...pageProps} />
+              </AppLayout>
+            </AuthNavigation>
           </ThemeProvider>
         </Provider>
       </React.StrictMode>

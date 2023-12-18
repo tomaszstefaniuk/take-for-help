@@ -1,19 +1,17 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/router";
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import validator from "validator";
 import * as yup from "yup";
 import { isErrorWithMessage } from "@/helpers/apiHelpers";
 import { useLanguage } from "@/language";
 import { useRegisterUserMutation } from "@/redux/features/auth";
+import { RegisterUserPayload } from "@/types";
 import { SignUpFormComponent } from "./SignUpFormComponent";
-import { FormData } from "./types";
 
 export const SignUpFormContainer: FC = () => {
   const { t } = useLanguage();
-
-  const router = useRouter();
 
   const schema = yup.object({
     firstName: yup
@@ -102,7 +100,7 @@ export const SignUpFormContainer: FC = () => {
   });
 
   const { formState, handleSubmit, register, trigger, watch } =
-    useForm<FormData>({
+    useForm<RegisterUserPayload>({
       mode: "onTouched",
       resolver: yupResolver(schema),
       defaultValues: {
@@ -118,16 +116,9 @@ export const SignUpFormContainer: FC = () => {
   const [registerUser, { isLoading, isSuccess, error }] =
     useRegisterUserMutation();
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
+  const onSubmit: SubmitHandler<RegisterUserPayload> = (data) => {
     registerUser(data);
   };
-
-  useEffect(() => {
-    if (isSuccess) {
-      // TODO: Authenticate user
-      router.push("/");
-    }
-  }, [isSuccess, router]);
 
   return (
     <SignUpFormComponent

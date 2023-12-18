@@ -20,16 +20,16 @@ import {
 
 import { PasswordMeterTextField } from "@/components/molecules";
 import { AuthFormLayout } from "@/components/templates";
-import { FormData } from "./types";
+import { RegisterUserPayload } from "@/types";
 
 type Props = {
-  onSubmit: SubmitHandler<FormData>;
-  formState: FormState<FormData>;
-  handleSubmit: UseFormHandleSubmit<FormData>;
+  onSubmit: SubmitHandler<RegisterUserPayload>;
+  formState: FormState<RegisterUserPayload>;
+  handleSubmit: UseFormHandleSubmit<RegisterUserPayload>;
   t: TFunction;
-  register: UseFormRegister<FormData>;
-  watch: UseFormWatch<FormData>;
-  trigger: UseFormTrigger<FormData>;
+  register: UseFormRegister<RegisterUserPayload>;
+  watch: UseFormWatch<RegisterUserPayload>;
+  trigger: UseFormTrigger<RegisterUserPayload>;
   error?: string;
   isLoading: boolean;
 };

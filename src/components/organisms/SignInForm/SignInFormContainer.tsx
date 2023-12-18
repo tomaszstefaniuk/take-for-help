@@ -4,8 +4,9 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import validator from "validator";
 import * as yup from "yup";
 import { useLanguage } from "@/language";
+import { useLoginUserMutation } from "@/redux/features/auth";
+import { LoginUserPayload } from "@/types/auth";
 import { SignInFormComponent } from "./SignInFormComponent";
-import { FormData } from "./types";
 
 export const SignInFormContainer: FC = () => {
   const { t } = useLanguage();
@@ -39,7 +40,7 @@ export const SignInFormContainer: FC = () => {
       .label(t("general.password")),
   });
 
-  const { control, formState, handleSubmit } = useForm<FormData>({
+  const { formState, handleSubmit, register } = useForm<LoginUserPayload>({
     mode: "onChange",
     resolver: yupResolver(schema),
     defaultValues: {
@@ -48,15 +49,19 @@ export const SignInFormContainer: FC = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<FormData> = (data) => console.log(data);
+  const [loginUser] = useLoginUserMutation();
+
+  const onSubmit: SubmitHandler<LoginUserPayload> = (data) => {
+    loginUser(data);
+  };
 
   return (
     <SignInFormComponent
       onSubmit={onSubmit}
-      control={control}
       formState={formState}
       handleSubmit={handleSubmit}
       t={t}
+      register={register}
     />
   );
 };

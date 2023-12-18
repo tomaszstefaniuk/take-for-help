@@ -1,22 +1,15 @@
 import { NextPage } from "next";
-import { useRouter } from "next/router";
-import { FC, useEffect } from "react";
+import { FC } from "react";
+import { useSelector } from "react-redux";
+import { getIsAuthenticated } from "@/redux/features/user";
 
 export const withAuth = <P extends Record<string, unknown>>(
   Component: NextPage<P>
 ): FC<P> => {
   const AuthComponent: NextPage<P> = (props) => {
-    const isLoggedIn = false;
+    const isAuthenticated = useSelector(getIsAuthenticated);
 
-    const router = useRouter();
-
-    useEffect(() => {
-      if (!isLoggedIn) {
-        router.push("/sign-in");
-      }
-    }, [isLoggedIn]);
-
-    return <Component {...props} />;
+    return isAuthenticated && <Component {...props} />;
   };
 
   return AuthComponent;
