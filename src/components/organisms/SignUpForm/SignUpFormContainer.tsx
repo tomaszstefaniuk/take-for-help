@@ -1,5 +1,4 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useRouter } from "next/router";
 import { FC } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import validator from "validator";
@@ -113,8 +112,7 @@ export const SignUpFormContainer: FC = () => {
       },
     });
 
-  const [registerUser, { isLoading, isSuccess, error }] =
-    useRegisterUserMutation();
+  const [registerUser, { isLoading, error }] = useRegisterUserMutation();
 
   const onSubmit: SubmitHandler<RegisterUserPayload> = (data) => {
     registerUser(data);

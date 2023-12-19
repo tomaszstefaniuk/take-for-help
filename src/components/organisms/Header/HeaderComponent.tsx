@@ -1,6 +1,6 @@
 import { Box, Container } from "@mui/material";
 import { FC } from "react";
-import { UserMenuButton } from "@/components/atoms";
+import { UserMenu } from "@/components/molecules";
 
 export const HeaderComponent: FC = () => {
   return (
@@ -21,7 +21,7 @@ export const HeaderComponent: FC = () => {
           alignItems="center"
         >
           Logo
-          <UserMenuButton firstName="Richard" />
+          <UserMenu />
         </Box>
       </Container>
     </Box>

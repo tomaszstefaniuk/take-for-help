@@ -41,7 +41,7 @@ export const SignInFormContainer: FC = () => {
   });
 
   const { formState, handleSubmit, register } = useForm<LoginUserPayload>({
-    mode: "onChange",
+    mode: "onTouched",
     resolver: yupResolver(schema),
     defaultValues: {
       email: "",

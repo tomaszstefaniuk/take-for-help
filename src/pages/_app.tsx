@@ -1,9 +1,8 @@
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { AppProps } from "next/app";
 import Head from "next/head";
-import React, { FC } from "react";
+import React, { FC, Fragment } from "react";
 import { Provider } from "react-redux";
-import { CleanLayout } from "@/components/templates";
 import { AuthNavigation } from "@/components/templates/AuthNavigation";
 import store from "@/store";
 import { theme } from "@/styles/theme";
@@ -14,7 +13,7 @@ const MyApp: FC<AppProps> = ({
   Component,
   pageProps,
 }: AppProps & AppWithLayout) => {
-  const AppLayout = Component.Layout || CleanLayout;
+  const AppLayout = Component.Layout ? Component.Layout : Fragment;
 
   return (
     <>

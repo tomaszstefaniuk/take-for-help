@@ -21,7 +21,12 @@ export const AuthFormLayout: FC<PropsWithChildren<Props>> = ({
       <Typography variant="subtitle1" color="text.disabled" marginBottom={4.5}>
         Your Social Campaigns
       </Typography>
-      <Box display="flex" gap={1.25} marginBottom={4.25}>
+      <Box
+        display="flex"
+        gap={1.25}
+        marginBottom={4.25}
+        sx={{ flexDirection: { xs: "column", md: "row" } }}
+      >
         <OutlineButton
           startIcon={
             <Box component="img" src="/icons/google-icon.svg" height="15px" />

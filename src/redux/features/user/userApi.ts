@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { User } from "@/types";
-import { setUser } from ".";
+import { setUser, logout } from ".";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: `${process.env.NEXT_PUBLIC_REACT_APP_SERVER_API}/users`,
@@ -24,7 +24,7 @@ export const userApi = createApi({
           const { data } = await queryFulfilled;
           dispatch(setUser(data));
         } catch (error) {
-          console.log("getMe error: ", error);
+          dispatch(logout());
         }
       },
     }),

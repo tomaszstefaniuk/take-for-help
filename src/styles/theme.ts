@@ -43,6 +43,14 @@ const palette = {
 
 const borderRadius = "0.375rem";
 
+const breakpoints = {
+  xs: 0,
+  sm: 640,
+  md: 768,
+  lg: 1024,
+  xl: 1280,
+} as const;
+
 export const theme = createTheme({
   palette,
   typography: {
@@ -50,6 +58,13 @@ export const theme = createTheme({
     fontSize: 13,
     fontWeightRegular: 400,
     fontWeightBold: 700,
+    body2: {
+      fontSize: "0.8125rem", // 13px
+      fontWeight: 400,
+      [`@media (max-width:${breakpoints.md}px)`]: {
+        fontSize: "0.75rem", // 12px
+      },
+    },
     subtitle1: {
       fontSize: "0.875rem", // 14px
       fontWeight: 500,
@@ -61,14 +76,23 @@ export const theme = createTheme({
     h1: {
       fontSize: "1.825rem",
       fontWeight: 700,
+      [`@media (max-width:${breakpoints.md}px)`]: {
+        fontSize: "1.3rem", // 20.8px
+      },
     },
     h2: {
-      fontSize: "1.42rem",
+      fontSize: "1.425rem", // 22.8px
       fontWeight: 700,
+      [`@media (max-width:${breakpoints.md}px)`]: {
+        fontSize: "1.125rem", // 18px
+      },
     },
     button: {
       fontSize: "0.894rem",
     },
+  },
+  breakpoints: {
+    values: breakpoints,
   },
   components: {
     MuiCssBaseline: {

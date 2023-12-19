@@ -13,17 +13,23 @@ export const AuthLayout: FC<PropsWithChildren<unknown>> = ({
   children,
 }: PropsWithChildren<unknown>) => {
   return (
-    <Box height="100vh" display="flex">
+    <Box
+      display="flex"
+      sx={{
+        flexDirection: { xs: "column-reverse", md: "unset" },
+        height: { xs: "auto", md: "100vh" },
+      }}
+    >
       <Box
         minHeight="100%"
         height="max-content"
-        width="50vw"
         bgcolor="white"
         zIndex="10"
         p={4}
         display="flex"
         flexDirection="column"
         justifyContent="space-between"
+        sx={{ width: { xs: "100%", md: "50vw" } }}
       >
         <Box
           component="main"
@@ -46,7 +52,14 @@ export const AuthLayout: FC<PropsWithChildren<unknown>> = ({
           ))}
         </Box>
       </Box>
-      <Box position="fixed" right={0} height="100vh" width="50vw">
+      <Box
+        right={0}
+        sx={{
+          position: { xs: "relative", md: "fixed" },
+          width: { xs: "100%", md: "50vw" },
+          height: { xs: "90vh", md: "100vh" },
+        }}
+      >
         <Image
           src="/images/auth/auth-bg.png"
           alt="authentication background image"
@@ -55,16 +68,19 @@ export const AuthLayout: FC<PropsWithChildren<unknown>> = ({
         />
         <Box
           zIndex="100"
-          position="fixed"
           height="100vh"
-          width="50vw"
           p={6}
           display="flex"
           flexDirection="column"
           justifyContent="center"
           alignItems="center"
+          sx={{
+            position: { xs: "absolute", md: "fixed" },
+            width: { xs: "100%", md: "50vw" },
+            height: { xs: "auto", md: "100vh" },
+          }}
         >
-          <Box height="500px"></Box>
+          <Box sx={{ height: { xs: "375px", md: "500px" } }}></Box>
           <Box color="white" maxWidth="460px">
             <Typography align="center" variant="h1" marginBottom={2.7}>
               Fast, Efficient and Productive

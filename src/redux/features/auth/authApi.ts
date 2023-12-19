@@ -5,6 +5,7 @@ import {
   LoginUserResponse,
   RegisterUserResponse,
 } from "@/types/auth";
+import { logout } from "../user";
 import { userApi } from ".";
 
 const baseQuery = fetchBaseQuery({
@@ -54,6 +55,14 @@ export const authApi = createApi({
           url: "/logout",
           credentials: "include",
         };
+      },
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          dispatch(logout());
+        } catch (error) {
+          console.error("Logout error: ", error);
+        }
       },
     }),
   }),
