@@ -1,22 +1,16 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import Router from "next/router";
 import { FC, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import validator from "validator";
 import * as yup from "yup";
 import { getErrors } from "@/helpers/apiHelpers";
 import { useLanguage } from "@/language";
-import { useLoginUserMutation } from "@/redux/features/auth";
-import { LoginUserPayload } from "@/types/auth";
-import { SignInFormComponent } from "./SignInFormComponent";
+import { useForgotPasswordMutation } from "@/redux/features/auth";
+import { ForgotPasswordPayload } from "@/types";
+import { ForgotPasswordFormComponent } from "./ForgotPasswordFormComponent";
 
-export const SignInFormContainer: FC = () => {
+export const ForgotPasswordFormContainer: FC = () => {
   const { t } = useLanguage();
-
-  const routerMessage =
-    typeof Router.query.successMessage === "string"
-      ? Router.query.successMessage
-      : undefined;
 
   const schema = yup.object({
     email: yup
@@ -30,37 +24,22 @@ export const SignInFormContainer: FC = () => {
         })
       )
       .label(t("general.email")),
-    password: yup
-      .string()
-      .max(
-        100,
-        t("errors.maxAmountOfCharacters", {
-          fieldName: t("general.password"),
-          number: 100,
-        })
-      )
-      .required(
-        t("errors.requiredField", {
-          fieldName: t("general.password"),
-        })
-      )
-      .label(t("general.password")),
   });
 
   const { formState, handleSubmit, register, setError } =
-    useForm<LoginUserPayload>({
+    useForm<ForgotPasswordPayload>({
       mode: "onTouched",
       resolver: yupResolver(schema),
       defaultValues: {
         email: "",
-        password: "",
       },
     });
 
-  const [loginUser, { error, isLoading }] = useLoginUserMutation();
+  const [forgotPassword, { data, isLoading, error }] =
+    useForgotPasswordMutation();
 
-  const onSubmit: SubmitHandler<LoginUserPayload> = (data) => {
-    loginUser(data);
+  const onSubmit: SubmitHandler<ForgotPasswordPayload> = (data) => {
+    forgotPassword(data);
   };
 
   useEffect(() => {
@@ -68,7 +47,7 @@ export const SignInFormContainer: FC = () => {
 
     if (Array.isArray(apiErrors)) {
       apiErrors.map((err) => {
-        setError(err.field as keyof LoginUserPayload, {
+        setError(err.field as keyof ForgotPasswordPayload, {
           type: "manual",
           message: err.message,
         });
@@ -77,15 +56,15 @@ export const SignInFormContainer: FC = () => {
   }, [error, setError]);
 
   return (
-    <SignInFormComponent
+    <ForgotPasswordFormComponent
       onSubmit={onSubmit}
       formState={formState}
       handleSubmit={handleSubmit}
       t={t}
       register={register}
       error={error ? getErrors(error) : undefined}
+      successMessage={data?.message}
       isLoading={isLoading}
-      successMessage={routerMessage}
     />
   );
 };

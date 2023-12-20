@@ -21,7 +21,7 @@ export const TextLink: FC<Props> = ({
         sx={{
           cursor: "pointer",
           textDecoration: "none",
-          fontSize: "0.815rem", //13px
+          fontSize: { xs: "0.75rem", md: "0.815rem" }, //xs: 12px, md: 13px
           fontWeight: "medium",
           bgcolor: "white",
           padding: 0,

@@ -68,6 +68,9 @@ export const theme = createTheme({
     subtitle1: {
       fontSize: "0.875rem", // 14px
       fontWeight: 500,
+      [`@media (max-width:${breakpoints.md}px)`]: {
+        fontSize: "0.8rem", // 12.8px
+      },
     },
     subtitle2: {
       fontSize: "0.77rem",
@@ -109,6 +112,10 @@ export const theme = createTheme({
           borderRadius,
           paddingTop: "0.575rem",
           paddingBottom: "0.575rem",
+          boxShadow: "none",
+          "&:hover": {
+            boxShadow: "none",
+          },
         },
       },
     },

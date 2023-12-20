@@ -1,59 +1,20 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import Router from "next/router";
 import { FC, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import validator from "validator";
 import * as yup from "yup";
 import { getErrors } from "@/helpers/apiHelpers";
 import { useLanguage } from "@/language";
-import { useRegisterUserMutation } from "@/redux/features/auth";
-import { RegisterUserPayload } from "@/types";
-import { SignUpFormComponent } from "./SignUpFormComponent";
+import { useResetPasswordMutation } from "@/redux/features/auth";
+import { ResetPasswordPayload } from "@/types";
+import { ResetPasswordFormComponent } from "./ResetPasswordFormComponent";
 
-export const SignUpFormContainer: FC = () => {
+export type ResetPasswordFormData = Omit<ResetPasswordPayload, "resetToken">;
+
+export const ResetPasswordFormContainer: FC = () => {
   const { t } = useLanguage();
 
   const schema = yup.object({
-    firstName: yup
-      .string()
-      .max(
-        30,
-        t("errors.maxAmountOfCharacters", {
-          fieldName: t("general.firstName"),
-          number: 30,
-        })
-      )
-      .required(
-        t("errors.requiredField", {
-          fieldName: t("general.firstName"),
-        })
-      )
-      .label(t("general.firstName")),
-    lastName: yup
-      .string()
-      .max(
-        30,
-        t("errors.maxAmountOfCharacters", {
-          fieldName: t("general.lastName"),
-          number: 30,
-        })
-      )
-      .required(
-        t("errors.requiredField", {
-          fieldName: t("general.lastName"),
-        })
-      )
-      .label(t("general.lastName")),
-    email: yup
-      .string()
-      .test("valid-email", "Invalid email address", (value) =>
-        validator.isEmail(String(value))
-      )
-      .required(
-        t("errors.requiredField", {
-          fieldName: t("general.email"),
-        })
-      )
-      .label(t("general.email")),
     password: yup
       .string()
       .min(
@@ -92,38 +53,40 @@ export const SignUpFormContainer: FC = () => {
       )
       .oneOf([yup.ref("password")], "Passwords must match")
       .label(t("general.passwordConfirm")),
-    acceptTerms: yup
-      .boolean()
-      .required("You must accept the terms")
-      .oneOf([true], "You must accept the terms"),
   });
 
-  const { formState, handleSubmit, register, trigger, watch, setError } =
-    useForm<RegisterUserPayload>({
+  const { formState, handleSubmit, register, watch, trigger, setError } =
+    useForm<ResetPasswordFormData>({
       mode: "onTouched",
       resolver: yupResolver(schema),
       defaultValues: {
-        firstName: "",
-        lastName: "",
-        email: "",
         password: "",
         passwordConfirm: "",
-        acceptTerms: false,
       },
     });
 
-  const [registerUser, { isLoading, error }] = useRegisterUserMutation();
+  const [resetPassword, { data, isSuccess, error, isLoading }] =
+    useResetPasswordMutation();
 
-  const onSubmit: SubmitHandler<RegisterUserPayload> = (data) => {
-    registerUser(data);
+  const onSubmit: SubmitHandler<ResetPasswordFormData> = (data) => {
+    resetPassword({ ...data, resetToken: String(Router.query.token) });
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      Router.push({
+        pathname: "/sign-in",
+        query: { successMessage: `${data?.message}. You can log in now.` },
+      });
+    }
+  }, [isSuccess, data?.message]);
 
   useEffect(() => {
     const apiErrors = getErrors(error);
 
     if (Array.isArray(apiErrors)) {
       apiErrors.map((err) => {
-        setError(err.field as keyof RegisterUserPayload, {
+        setError(err.field as keyof ResetPasswordFormData, {
           type: "manual",
           message: err.message,
         });
@@ -132,7 +95,7 @@ export const SignUpFormContainer: FC = () => {
   }, [error, setError]);
 
   return (
-    <SignUpFormComponent
+    <ResetPasswordFormComponent
       onSubmit={onSubmit}
       formState={formState}
       handleSubmit={handleSubmit}

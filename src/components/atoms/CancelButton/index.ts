@@ -1,1 +1,1 @@
-export { CancelButton } from "./CancelButton";
+export { CancelButton, ButtonColor } from "./CancelButton";

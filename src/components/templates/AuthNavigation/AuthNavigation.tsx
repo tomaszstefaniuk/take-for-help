@@ -1,6 +1,7 @@
 import Router from "next/router";
 import { FC, PropsWithChildren, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { isProtectedRoute } from "@/helpers/isProtectedRoute";
 import { getIsAuthenticated } from "@/redux/features/user";
 import { useGetMeQuery } from "@/redux/features/user/userApi";
 
@@ -16,7 +17,9 @@ export const AuthNavigation: FC<PropsWithChildren<unknown>> = ({
       if (isAuthenticated) {
         Router.push("/");
       } else {
-        Router.push("/sign-in");
+        if (isProtectedRoute(Router.pathname)) {
+          Router.push("/sign-in");
+        }
       }
     }
   }, [isLoading, isAuthenticated]);

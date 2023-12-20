@@ -21,6 +21,7 @@ import {
 import { PasswordMeterTextField } from "@/components/molecules";
 import { AuthFormLayout } from "@/components/templates";
 import { RegisterUserPayload } from "@/types";
+import { FieldError } from "@/types/error";
 
 type Props = {
   onSubmit: SubmitHandler<RegisterUserPayload>;
@@ -30,7 +31,7 @@ type Props = {
   register: UseFormRegister<RegisterUserPayload>;
   watch: UseFormWatch<RegisterUserPayload>;
   trigger: UseFormTrigger<RegisterUserPayload>;
-  error?: string;
+  error?: string | FieldError[];
   isLoading: boolean;
 };
 
@@ -46,11 +47,15 @@ export const SignUpFormComponent: FC<Props> = ({
   isLoading,
 }) => {
   return (
-    <AuthFormLayout title="Sign Up" error={error}>
+    <AuthFormLayout
+      title="Sign Up"
+      subtitle="Your Social Campaigns"
+      error={error}
+    >
       <Box
         component="form"
         width="100%"
-        marginTop={4.25}
+        marginTop={3}
         display="flex"
         flexDirection="column"
         onSubmit={handleSubmit(onSubmit)}

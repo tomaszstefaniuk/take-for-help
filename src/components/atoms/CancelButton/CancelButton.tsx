@@ -1,17 +1,44 @@
 import { ButtonProps, Button as MuiButton } from "@mui/material";
-import { FC } from "react";
+import { FC, HTMLAttributes, ReactNode } from "react";
 
-export const CancelButton: FC<ButtonProps> = ({ children, sx, ...rest }) => {
+export enum ButtonColor {
+  BLUE = "blue",
+  GREY = "grey",
+}
+
+type Props = {
+  color?: ButtonColor;
+  children?: ReactNode;
+} & Omit<ButtonProps, keyof HTMLAttributes<HTMLButtonElement>>;
+
+export const CancelButton: FC<Props> = ({
+  color: propsColor = ButtonColor.BLUE,
+  children,
+  sx,
+  ...rest
+}) => {
+  let color = "secondary.main";
+  let bgcolor = "secondary.light";
+  let hoverColor = "white";
+  let hoverBgcolor = "secondary.main";
+
+  if (propsColor === ButtonColor.GREY) {
+    color = "grey.800";
+    bgcolor = "grey.100";
+    hoverColor = "grey.800";
+    hoverBgcolor = "#fcfcfc";
+  }
+
   return (
     <MuiButton
       variant="contained"
       disableElevation
       sx={{
-        color: "secondary.main",
-        bgcolor: "secondary.light",
+        color,
+        bgcolor,
         "&:hover": {
-          color: "white",
-          bgcolor: "secondary.main",
+          color: hoverColor,
+          bgcolor: hoverBgcolor,
         },
         ...sx,
       }}

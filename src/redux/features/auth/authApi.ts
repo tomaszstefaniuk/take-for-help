@@ -1,9 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RegisterUserPayload } from "@/types";
 import {
+  GenericResponse,
   LoginUserPayload,
   LoginUserResponse,
   RegisterUserResponse,
+  ResetPasswordPayload,
 } from "@/types/auth";
 import { logout } from "../user";
 import { userApi } from ".";
@@ -27,7 +29,7 @@ export const authApi = createApi({
           await queryFulfilled;
           await dispatch(authApi.endpoints.loginUser.initiate(args));
         } catch (error) {
-          console.log("loginUser error: ", error);
+          console.error(error);
         }
       },
     }),
@@ -45,7 +47,7 @@ export const authApi = createApi({
           await queryFulfilled;
           await dispatch(userApi.endpoints.getMe.initiate(null));
         } catch (error) {
-          console.log("loginUser error: ", error);
+          console.error(error);
         }
       },
     }),
@@ -65,6 +67,26 @@ export const authApi = createApi({
         }
       },
     }),
+    forgotPassword: builder.mutation<GenericResponse, { email: string }>({
+      query(body) {
+        return {
+          url: `/forgot-password`,
+          method: "POST",
+          credentials: "include",
+          body,
+        };
+      },
+    }),
+    resetPassword: builder.mutation<GenericResponse, ResetPasswordPayload>({
+      query({ resetToken, password, passwordConfirm }) {
+        return {
+          url: `/reset-password/${resetToken}`,
+          method: "PATCH",
+          body: { password, passwordConfirm },
+          credentials: "include",
+        };
+      },
+    }),
   }),
 });
 
@@ -72,4 +94,6 @@ export const {
   useRegisterUserMutation,
   useLoginUserMutation,
   useLogoutUserMutation,
+  useForgotPasswordMutation,
+  useResetPasswordMutation,
 } = authApi;

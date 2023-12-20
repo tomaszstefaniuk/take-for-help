@@ -29,6 +29,19 @@ export type LoginUserResponse = {
   status: string;
 };
 
+/* Forgot Password */
+export type ForgotPasswordPayload = {
+  email: string;
+};
+
+/* Reset Password */
+export type ResetPasswordPayload = {
+  password: string;
+  passwordConfirm: string;
+  resetToken: string;
+};
+
+/* User */
 export type User = {
   id: string;
   firstName: string;
@@ -38,4 +51,10 @@ export type User = {
   role: "user" | "admin";
   createdAt: Date;
   updatedAt: Date;
+};
+
+/* Generic */
+export type GenericResponse = {
+  status: string;
+  message: string;
 };

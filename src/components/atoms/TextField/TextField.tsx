@@ -24,9 +24,9 @@ const Field = (
         htmlFor={id}
         color="secondary"
         sx={{
-          fontSize: "0.875rem",
+          fontSize: { xs: "0.8rem", md: "0.875rem" }, //xs: 12.8px, md: 14px
           fontWeight: "bold",
-          marginBottom: 1,
+          marginBottom: { xs: 0.5, md: 1 },
         }}
       >
         {label}

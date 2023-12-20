@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, CircularProgress, Typography } from "@mui/material";
 import { TFunction } from "i18next";
 
 import { FC } from "react";
@@ -13,6 +13,7 @@ import { TextField, TextLink } from "@/components/atoms";
 
 import { AuthFormLayout } from "@/components/templates";
 import { LoginUserPayload } from "@/types/auth";
+import { FieldError } from "@/types/error";
 
 type Props = {
   onSubmit: SubmitHandler<LoginUserPayload>;
@@ -20,6 +21,9 @@ type Props = {
   handleSubmit: UseFormHandleSubmit<LoginUserPayload>;
   t: TFunction;
   register: UseFormRegister<LoginUserPayload>;
+  error?: string | FieldError[];
+  successMessage?: string;
+  isLoading: boolean;
 };
 
 export const SignInFormComponent: FC<Props> = ({
@@ -28,13 +32,21 @@ export const SignInFormComponent: FC<Props> = ({
   handleSubmit,
   t,
   register,
+  error,
+  successMessage,
+  isLoading,
 }) => {
   return (
-    <AuthFormLayout title="Sign In">
+    <AuthFormLayout
+      title="Sign In"
+      subtitle="Your Social Campaigns"
+      error={error}
+      successMessage={successMessage}
+    >
       <Box
         component="form"
         width="100%"
-        marginTop={4.25}
+        marginTop={3}
         display="flex"
         flexDirection="column"
         onSubmit={handleSubmit(onSubmit)}
@@ -67,7 +79,7 @@ export const SignInFormComponent: FC<Props> = ({
           />
         </Box>
         <TextLink
-          href="#"
+          href="/forgot-password"
           lighterOnHover
           sx={{ alignSelf: "flex-end", marginTop: 1 }}
         >
@@ -80,7 +92,18 @@ export const SignInFormComponent: FC<Props> = ({
           type="submit"
           disabled={!formState.isValid}
         >
-          Continue
+          {isLoading ? (
+            <>
+              Please wait...
+              <CircularProgress
+                color="inherit"
+                size="15px"
+                sx={{ position: "absolute", right: "9rem" }}
+              />
+            </>
+          ) : (
+            "Continue"
+          )}
         </Button>
         <Box
           sx={{
