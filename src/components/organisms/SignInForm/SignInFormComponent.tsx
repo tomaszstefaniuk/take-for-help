@@ -1,6 +1,7 @@
 import { Box, Button, CircularProgress, Typography } from "@mui/material";
 import { TFunction } from "i18next";
 
+import NextLink from "next/link";
 import { FC } from "react";
 import {
   UseFormHandleSubmit,
@@ -9,7 +10,7 @@ import {
   UseFormRegister,
 } from "react-hook-form";
 
-import { TextField, TextLink } from "@/components/atoms";
+import { TextField } from "@/components/atoms";
 
 import { AuthFormLayout } from "@/components/templates";
 import { LoginUserPayload } from "@/types/auth";
@@ -22,7 +23,6 @@ type Props = {
   t: TFunction;
   register: UseFormRegister<LoginUserPayload>;
   error?: string | FieldError[];
-  successMessage?: string;
   isLoading: boolean;
 };
 
@@ -33,7 +33,6 @@ export const SignInFormComponent: FC<Props> = ({
   t,
   register,
   error,
-  successMessage,
   isLoading,
 }) => {
   return (
@@ -41,7 +40,6 @@ export const SignInFormComponent: FC<Props> = ({
       title="Sign In"
       subtitle="Your Social Campaigns"
       error={error}
-      successMessage={successMessage}
     >
       <Box
         component="form"
@@ -78,13 +76,16 @@ export const SignInFormComponent: FC<Props> = ({
             helperText={formState.errors?.password?.message}
           />
         </Box>
-        <TextLink
+        <Typography
+          variant="linkTextLight"
+          component={NextLink}
           href="/forgot-password"
-          lighterOnHover
-          sx={{ alignSelf: "flex-end", marginTop: 1 }}
+          sx={{
+            marginTop: 1,
+          }}
         >
           Forgot Password ?
-        </TextLink>
+        </Typography>
         <Button
           variant="contained"
           color="secondary"
@@ -116,13 +117,17 @@ export const SignInFormComponent: FC<Props> = ({
           <Typography variant="subtitle1" color="text.disabled">
             Not a Member yet?
           </Typography>
-          <TextLink
+          <Typography
+            variant="linkTextLight"
+            component={NextLink}
             href="/sign-up"
-            lighterOnHover
-            sx={{ fontSize: "0.875rem", marginLeft: 0.5 }}
+            sx={{
+              fontSize: { xs: "0.8125rem", md: "0.875rem" },
+              marginLeft: 0.5,
+            }}
           >
             Sign up
-          </TextLink>
+          </Typography>
         </Box>
       </Box>
     </AuthFormLayout>

@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import Router from "next/router";
+import { useRouter } from "next/router";
 import { FC, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import validator from "validator";
@@ -12,11 +12,7 @@ import { SignInFormComponent } from "./SignInFormComponent";
 
 export const SignInFormContainer: FC = () => {
   const { t } = useLanguage();
-
-  const routerMessage =
-    typeof Router.query.successMessage === "string"
-      ? Router.query.successMessage
-      : undefined;
+  const router = useRouter();
 
   const schema = yup.object({
     email: yup
@@ -57,7 +53,7 @@ export const SignInFormContainer: FC = () => {
       },
     });
 
-  const [loginUser, { error, isLoading }] = useLoginUserMutation();
+  const [loginUser, { error, isLoading, isSuccess }] = useLoginUserMutation();
 
   const onSubmit: SubmitHandler<LoginUserPayload> = (data) => {
     loginUser(data);
@@ -76,6 +72,12 @@ export const SignInFormContainer: FC = () => {
     }
   }, [error, setError]);
 
+  useEffect(() => {
+    if (!isLoading && isSuccess) {
+      router.replace(router.asPath);
+    }
+  }, [isLoading]);
+
   return (
     <SignInFormComponent
       onSubmit={onSubmit}
@@ -85,7 +87,6 @@ export const SignInFormContainer: FC = () => {
       register={register}
       error={error ? getErrors(error) : undefined}
       isLoading={isLoading}
-      successMessage={routerMessage}
     />
   );
 };

@@ -1,5 +1,28 @@
 import { createTheme } from "@mui/material";
+import { TypographyStyleOptions } from "@mui/material/styles/createTypography";
 import { hexToRgba } from "@/utils";
+
+declare module "@mui/material/styles" {
+  interface TypographyVariants {
+    linkContained: TypographyStyleOptions;
+    linkTextLight: TypographyStyleOptions;
+    linkTextDark: TypographyStyleOptions;
+  }
+
+  interface TypographyVariantsOptions {
+    linkContained: TypographyStyleOptions;
+    linkTextLight?: TypographyStyleOptions;
+    linkTextDark?: TypographyStyleOptions;
+  }
+}
+
+declare module "@mui/material/Typography" {
+  interface TypographyPropsVariantOverrides {
+    linkContained: true;
+    linkTextLight: true;
+    linkTextDark: true;
+  }
+}
 
 const palette = {
   text: {
@@ -14,6 +37,10 @@ const palette = {
     light: "#E9F3FF",
     main: "#1B84FF",
     dark: "#1565c0",
+  },
+  tertiary: {
+    light: "#F9F9F9",
+    main: "#252F4A",
   },
   success: {
     light: "#DFFFEA",
@@ -39,19 +66,33 @@ const palette = {
     900: "#071437",
   },
   divider: "#E4E6EF",
+  qwe: {
+    main: "#F8285A",
+  },
 };
 
 const borderRadius = "0.375rem";
 
-const breakpoints = {
-  xs: 0,
-  sm: 640,
-  md: 768,
-  lg: 1024,
-  xl: 1280,
-} as const;
+const linkTextStyles = {
+  cursor: "pointer",
+  color: palette.secondary.main,
+  fontSize: "0.815rem", // 13px
+  fontWeight: 500,
+  padding: 0,
+};
 
-export const theme = createTheme({
+export let theme = createTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 640,
+      md: 768,
+      lg: 1024,
+      xl: 1280,
+    },
+  },
+});
+theme = createTheme(theme, {
   palette,
   typography: {
     fontFamily: "Inter, Helvetica, sans-serif",
@@ -61,14 +102,49 @@ export const theme = createTheme({
     body2: {
       fontSize: "0.8125rem", // 13px
       fontWeight: 400,
-      [`@media (max-width:${breakpoints.md}px)`]: {
+      [theme.breakpoints.down("md")]: {
         fontSize: "0.75rem", // 12px
+      },
+    },
+    linkTextLight: {
+      ...linkTextStyles,
+      "&:hover": {
+        opacity: 0.8,
+      },
+      [theme.breakpoints.down("md")]: {
+        fontSize: "0.75rem", // 12px
+      },
+    },
+    linkTextDark: {
+      ...linkTextStyles,
+      "&:hover": {
+        color: palette.secondary.dark,
+      },
+      [theme.breakpoints.down("md")]: {
+        fontSize: "0.75rem", // 12px
+      },
+    },
+    linkContained: {
+      fontSize: "0.894rem", // 14.3px
+      fontWeight: 500,
+      color: palette.tertiary.main,
+      backgroundColor: palette.tertiary.light,
+      borderRadius,
+      cursor: "pointer",
+      textDecoration: "none",
+      textAlign: "center",
+      display: "inline-block",
+      lineHeight: "1.5rem",
+      padding: "0.575rem 1rem",
+      "&:hover": {
+        color: palette.tertiary.main,
+        backgroundColor: "#fcfcfc",
       },
     },
     subtitle1: {
       fontSize: "0.875rem", // 14px
       fontWeight: 500,
-      [`@media (max-width:${breakpoints.md}px)`]: {
+      [theme.breakpoints.down("md")]: {
         fontSize: "0.8rem", // 12.8px
       },
     },
@@ -79,24 +155,23 @@ export const theme = createTheme({
     h1: {
       fontSize: "1.825rem",
       fontWeight: 700,
-      [`@media (max-width:${breakpoints.md}px)`]: {
+      [theme.breakpoints.down("md")]: {
         fontSize: "1.3rem", // 20.8px
       },
     },
     h2: {
       fontSize: "1.425rem", // 22.8px
       fontWeight: 700,
-      [`@media (max-width:${breakpoints.md}px)`]: {
+      [theme.breakpoints.down("md")]: {
         fontSize: "1.125rem", // 18px
       },
     },
     button: {
-      fontSize: "0.894rem",
+      fontSize: "0.894rem", // 14.3px
+      lineHeight: "1.5rem",
     },
   },
-  breakpoints: {
-    values: breakpoints,
-  },
+
   components: {
     MuiCssBaseline: {
       styleOverrides: {

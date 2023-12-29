@@ -1,4 +1,4 @@
-import { Box, Button, CircularProgress } from "@mui/material";
+import { Box, Button, CircularProgress, Typography } from "@mui/material";
 import { TFunction } from "i18next";
 
 import NextLink from "next/link";
@@ -10,9 +10,8 @@ import {
   UseFormRegister,
 } from "react-hook-form";
 
-import { CancelButton, TextField } from "@/components/atoms";
+import { TextField } from "@/components/atoms";
 
-import { ButtonColor } from "@/components/atoms/CancelButton";
 import { AuthFormLayout } from "@/components/templates";
 import { ForgotPasswordPayload } from "@/types/auth";
 import { FieldError } from "@/types/error";
@@ -87,9 +86,9 @@ export const ForgotPasswordFormComponent: FC<Props> = ({
               "Submit"
             )}
           </Button>
-          <NextLink href="/sign-in">
-            <CancelButton color={ButtonColor.GREY}>Cancel</CancelButton>
-          </NextLink>
+          <Typography variant="linkContained" component={NextLink} href="/">
+            Cancel
+          </Typography>
         </Box>
       </Box>
     </AuthFormLayout>

@@ -25,7 +25,10 @@ export type LoginUserPayload = {
 };
 
 export type LoginUserResponse = {
-  access_token: string;
+  data: {
+    access_token: string;
+    user: User;
+  };
   status: string;
 };
 

@@ -1,4 +1,4 @@
-import Router from "next/router";
+import { useRouter } from "next/router";
 import { FC, PropsWithChildren, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { isProtectedRoute } from "@/helpers/isProtectedRoute";
@@ -8,21 +8,27 @@ import { useGetMeQuery } from "@/redux/features/user/userApi";
 export const AuthNavigation: FC<PropsWithChildren<unknown>> = ({
   children,
 }) => {
+  const router = useRouter();
   const isAuthenticated = useSelector(getIsAuthenticated);
 
-  const { isLoading } = useGetMeQuery(null);
+  const { refetch } = useGetMeQuery(null);
 
   useEffect(() => {
-    if (!isLoading) {
-      if (isAuthenticated) {
-        Router.push("/");
+    refetch();
+  }, [refetch]);
+
+  useEffect(() => {
+    if (
+      (!isAuthenticated && isProtectedRoute(router.pathname)) ||
+      (isAuthenticated && !isProtectedRoute(router.pathname))
+    ) {
+      if (router.pathname === "/") {
+        router.replace(router.asPath);
       } else {
-        if (isProtectedRoute(Router.pathname)) {
-          Router.push("/sign-in");
-        }
+        router.push("/");
       }
     }
-  }, [isLoading, isAuthenticated]);
+  }, [isAuthenticated]);
 
   return <>{children}</>;
 };

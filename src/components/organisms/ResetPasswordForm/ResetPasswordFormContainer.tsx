@@ -1,10 +1,11 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import Router from "next/router";
+import { useRouter } from "next/router";
 import { FC, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { getErrors } from "@/helpers/apiHelpers";
 import { useLanguage } from "@/language";
+import { useNotification } from "@/providers";
 import { useResetPasswordMutation } from "@/redux/features/auth";
 import { ResetPasswordPayload } from "@/types";
 import { ResetPasswordFormComponent } from "./ResetPasswordFormComponent";
@@ -13,6 +14,8 @@ export type ResetPasswordFormData = Omit<ResetPasswordPayload, "resetToken">;
 
 export const ResetPasswordFormContainer: FC = () => {
   const { t } = useLanguage();
+  const { showNotification } = useNotification();
+  const { push, query } = useRouter();
 
   const schema = yup.object({
     password: yup
@@ -69,15 +72,13 @@ export const ResetPasswordFormContainer: FC = () => {
     useResetPasswordMutation();
 
   const onSubmit: SubmitHandler<ResetPasswordFormData> = (data) => {
-    resetPassword({ ...data, resetToken: String(Router.query.token) });
+    resetPassword({ ...data, resetToken: String(query.token) });
   };
 
   useEffect(() => {
     if (isSuccess) {
-      Router.push({
-        pathname: "/sign-in",
-        query: { successMessage: `${data?.message}. You can log in now.` },
-      });
+      push("/");
+      showNotification(`${data?.message}. You can log in now.`, "success");
     }
   }, [isSuccess, data?.message]);
 

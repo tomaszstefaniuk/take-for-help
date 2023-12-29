@@ -3,7 +3,7 @@ import { FC, MouseEvent } from "react";
 import { UserMenuButton } from "@/components/atoms";
 
 type Props = {
-  anchorEl: null | HTMLElement;
+  anchorEl?: null | HTMLElement;
   isOpen: boolean;
   onButtonClick: (e: MouseEvent<HTMLElement>) => void;
   closeMenu: () => void;

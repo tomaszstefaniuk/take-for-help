@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import Image from "next/image";
+import NextLink from "next/link";
 import { FC, PropsWithChildren } from "react";
-import { TextLink } from "@/components/atoms";
 
 const footerItems = [
   { label: "Terms" },
@@ -46,9 +46,14 @@ export const AuthLayout: FC<PropsWithChildren<unknown>> = ({
         </Box>
         <Box component="footer" display="flex" justifyContent="center" gap={4}>
           {footerItems.map((item) => (
-            <TextLink href="#" key={item.label}>
+            <Typography
+              key={item.label}
+              variant="linkTextDark"
+              component={NextLink}
+              href="#"
+            >
               {item.label}
-            </TextLink>
+            </Typography>
           ))}
         </Box>
       </Box>

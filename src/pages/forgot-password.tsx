@@ -1,9 +1,8 @@
-import { FC } from "react";
 import { ForgotPasswordForm } from "@/components/organisms";
 import { AuthLayout } from "@/components/templates";
-import { PageWithLayout } from "@/types/layout";
+import { NextPageWithLayout } from "@/types/layout";
 
-const ForgotPasswordPage: FC & PageWithLayout = () => {
+const ForgotPasswordPage: NextPageWithLayout = () => {
   return <ForgotPasswordForm />;
 };
 

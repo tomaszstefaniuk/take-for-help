@@ -1,9 +1,8 @@
-import { FC } from "react";
 import { ResetPasswordForm } from "@/components/organisms";
 import { AuthLayout } from "@/components/templates";
-import { PageWithLayout } from "@/types/layout";
+import { NextPageWithLayout } from "@/types/layout";
 
-const ResetPasswordPage: FC & PageWithLayout = () => {
+const ResetPasswordPage: NextPageWithLayout = () => {
   return <ResetPasswordForm />;
 };
 

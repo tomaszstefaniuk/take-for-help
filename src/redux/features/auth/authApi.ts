@@ -7,8 +7,7 @@ import {
   RegisterUserResponse,
   ResetPasswordPayload,
 } from "@/types/auth";
-import { logout } from "../user";
-import { userApi } from ".";
+import { logout, setUser } from "../user";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: `${process.env.NEXT_PUBLIC_REACT_APP_SERVER_API}/auth`,
@@ -44,10 +43,10 @@ export const authApi = createApi({
       },
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {
-          await queryFulfilled;
-          await dispatch(userApi.endpoints.getMe.initiate(null));
+          const { data } = await queryFulfilled;
+          dispatch(setUser(data.data.user));
         } catch (error) {
-          console.error(error);
+          dispatch(logout());
         }
       },
     }),

@@ -1,4 +1,3 @@
-// navigationSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 
 const navigationSlice = createSlice({

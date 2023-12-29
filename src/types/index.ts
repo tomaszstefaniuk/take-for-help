@@ -1,4 +1,8 @@
-export type { PageWithLayout, AppWithLayout } from "./layout";
+export type {
+  PageWithLayout,
+  AppWithLayout,
+  NextPageWithLayout,
+} from "./layout";
 
 export type {
   RegisterUserPayload,
