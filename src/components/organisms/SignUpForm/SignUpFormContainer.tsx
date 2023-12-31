@@ -1,19 +1,18 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useRouter } from "next/router";
-import { FC, useEffect } from "react";
+import { SerializedError } from "@reduxjs/toolkit";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { FC } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import validator from "validator";
 import * as yup from "yup";
-import { isErrorWithMessage } from "@/helpers/apiHelpers";
+import { getErrors } from "@/helpers/apiHelpers";
 import { useLanguage } from "@/language";
 import { useRegisterUserMutation } from "@/redux/features/auth";
+import { RegisterUserPayload } from "@/types";
 import { SignUpFormComponent } from "./SignUpFormComponent";
-import { FormData } from "./types";
 
 export const SignUpFormContainer: FC = () => {
   const { t } = useLanguage();
-
-  const router = useRouter();
 
   const schema = yup.object({
     firstName: yup
@@ -73,6 +72,12 @@ export const SignUpFormContainer: FC = () => {
           number: 100,
         })
       )
+      .matches(
+        /\d/,
+        t("errors.atLeastOneNumber", {
+          fieldName: t("general.password"),
+        })
+      )
       .required(
         t("errors.requiredField", {
           fieldName: t("general.password"),
@@ -101,8 +106,8 @@ export const SignUpFormContainer: FC = () => {
       .oneOf([true], "You must accept the terms"),
   });
 
-  const { formState, handleSubmit, register, trigger, watch } =
-    useForm<FormData>({
+  const { formState, handleSubmit, register, trigger, watch, setError } =
+    useForm<RegisterUserPayload>({
       mode: "onTouched",
       resolver: yupResolver(schema),
       defaultValues: {
@@ -115,19 +120,26 @@ export const SignUpFormContainer: FC = () => {
       },
     });
 
-  const [registerUser, { isLoading, isSuccess, error }] =
-    useRegisterUserMutation();
+  const [registerUser, { isLoading, error }] = useRegisterUserMutation();
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
-    registerUser(data);
-  };
+  const onSubmit: SubmitHandler<RegisterUserPayload> = async (data) => {
+    try {
+      await registerUser(data).unwrap();
+    } catch (error) {
+      const apiErrors = getErrors(
+        error as FetchBaseQueryError | SerializedError | undefined
+      );
 
-  useEffect(() => {
-    if (isSuccess) {
-      // TODO: Authenticate user
-      router.push("/");
+      if (Array.isArray(apiErrors)) {
+        apiErrors.map((err) => {
+          setError(err.field as keyof RegisterUserPayload, {
+            type: "manual",
+            message: err.message,
+          });
+        });
+      }
     }
-  }, [isSuccess, router]);
+  };
 
   return (
     <SignUpFormComponent
@@ -138,7 +150,7 @@ export const SignUpFormContainer: FC = () => {
       register={register}
       watch={watch}
       trigger={trigger}
-      error={isErrorWithMessage(error) ? error?.data?.message : undefined}
+      error={error ? getErrors(error) : undefined}
       isLoading={isLoading}
     />
   );

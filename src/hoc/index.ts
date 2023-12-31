@@ -1,1 +1,1 @@
-export { withAuth } from "./withAuth";
+export { withLayout } from "./withLayout";

@@ -1,14 +1,20 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import { SerializedError } from "@reduxjs/toolkit";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { useRouter } from "next/router";
 import { FC } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import validator from "validator";
 import * as yup from "yup";
+import { getErrors } from "@/helpers/apiHelpers";
 import { useLanguage } from "@/language";
+import { useLoginUserMutation } from "@/redux/features/auth";
+import { LoginUserPayload } from "@/types/auth";
 import { SignInFormComponent } from "./SignInFormComponent";
-import { FormData } from "./types";
 
 export const SignInFormContainer: FC = () => {
   const { t } = useLanguage();
+  const router = useRouter();
 
   const schema = yup.object({
     email: yup
@@ -39,24 +45,47 @@ export const SignInFormContainer: FC = () => {
       .label(t("general.password")),
   });
 
-  const { control, formState, handleSubmit } = useForm<FormData>({
-    mode: "onChange",
-    resolver: yupResolver(schema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
+  const { formState, handleSubmit, register, setError } =
+    useForm<LoginUserPayload>({
+      mode: "onTouched",
+      resolver: yupResolver(schema),
+      defaultValues: {
+        email: "",
+        password: "",
+      },
+    });
 
-  const onSubmit: SubmitHandler<FormData> = (data) => console.log(data);
+  const [loginUser, { error, isLoading }] = useLoginUserMutation();
+
+  const onSubmit: SubmitHandler<LoginUserPayload> = async (values) => {
+    try {
+      await loginUser(values).unwrap();
+      router.replace(router.asPath);
+    } catch (error) {
+      const apiErrors = getErrors(
+        error as FetchBaseQueryError | SerializedError | undefined
+      );
+
+      if (Array.isArray(apiErrors)) {
+        apiErrors.map((err) => {
+          setError(err.field as keyof LoginUserPayload, {
+            type: "manual",
+            message: err.message,
+          });
+        });
+      }
+    }
+  };
 
   return (
     <SignInFormComponent
       onSubmit={onSubmit}
-      control={control}
       formState={formState}
       handleSubmit={handleSubmit}
       t={t}
+      register={register}
+      error={error ? getErrors(error) : undefined}
+      isLoading={isLoading}
     />
   );
 };

@@ -11,26 +11,22 @@ import {
   UseFormTrigger,
 } from "react-hook-form";
 
-import {
-  CancelButton,
-  Checkbox,
-  TextField,
-  TextLink,
-} from "@/components/atoms";
+import { Checkbox, TextField } from "@/components/atoms";
 
 import { PasswordMeterTextField } from "@/components/molecules";
 import { AuthFormLayout } from "@/components/templates";
-import { FormData } from "./types";
+import { RegisterUserPayload } from "@/types";
+import { FieldError } from "@/types/error";
 
 type Props = {
-  onSubmit: SubmitHandler<FormData>;
-  formState: FormState<FormData>;
-  handleSubmit: UseFormHandleSubmit<FormData>;
+  onSubmit: SubmitHandler<RegisterUserPayload>;
+  formState: FormState<RegisterUserPayload>;
+  handleSubmit: UseFormHandleSubmit<RegisterUserPayload>;
   t: TFunction;
-  register: UseFormRegister<FormData>;
-  watch: UseFormWatch<FormData>;
-  trigger: UseFormTrigger<FormData>;
-  error?: string;
+  register: UseFormRegister<RegisterUserPayload>;
+  watch: UseFormWatch<RegisterUserPayload>;
+  trigger: UseFormTrigger<RegisterUserPayload>;
+  error?: string | FieldError[];
   isLoading: boolean;
 };
 
@@ -46,11 +42,15 @@ export const SignUpFormComponent: FC<Props> = ({
   isLoading,
 }) => {
   return (
-    <AuthFormLayout title="Sign Up" error={error}>
+    <AuthFormLayout
+      title="Sign Up"
+      subtitle="Your Social Campaigns"
+      error={error}
+    >
       <Box
         component="form"
         width="100%"
-        marginTop={4.25}
+        marginTop={3}
         display="flex"
         flexDirection="column"
         onSubmit={handleSubmit(onSubmit)}
@@ -137,9 +137,10 @@ export const SignUpFormComponent: FC<Props> = ({
             sx={{ marginTop: 2 }}
             value={watch("acceptTerms")}
           />
-          <TextLink
+          <Typography
+            variant="linkTextLight"
+            component={NextLink}
             href="#"
-            lighterOnHover
             sx={{
               fontWeight: "normal",
               marginTop: "1.25px",
@@ -147,7 +148,7 @@ export const SignUpFormComponent: FC<Props> = ({
             }}
           >
             Terms
-          </TextLink>
+          </Typography>
           <Typography>.</Typography>
         </Box>
         <Button
@@ -170,9 +171,14 @@ export const SignUpFormComponent: FC<Props> = ({
             "Submit"
           )}
         </Button>
-        <NextLink href="/sign-in">
-          <CancelButton fullWidth>Cancel</CancelButton>
-        </NextLink>
+        <Typography
+          variant="linkContained"
+          sx={{ width: "100%" }}
+          component={NextLink}
+          href="/"
+        >
+          Cancel
+        </Typography>
       </Box>
     </AuthFormLayout>
   );
