@@ -1,5 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { FC, useEffect } from "react";
+import { SerializedError } from "@reduxjs/toolkit";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { FC } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import validator from "validator";
 import * as yup from "yup";
@@ -38,22 +40,24 @@ export const ForgotPasswordFormContainer: FC = () => {
   const [forgotPassword, { data, isLoading, error }] =
     useForgotPasswordMutation();
 
-  const onSubmit: SubmitHandler<ForgotPasswordPayload> = (data) => {
-    forgotPassword(data);
-  };
+  const onSubmit: SubmitHandler<ForgotPasswordPayload> = async (data) => {
+    try {
+      await forgotPassword(data).unwrap();
+    } catch (error) {
+      const apiErrors = getErrors(
+        error as FetchBaseQueryError | SerializedError | undefined
+      );
 
-  useEffect(() => {
-    const apiErrors = getErrors(error);
-
-    if (Array.isArray(apiErrors)) {
-      apiErrors.map((err) => {
-        setError(err.field as keyof ForgotPasswordPayload, {
-          type: "manual",
-          message: err.message,
+      if (Array.isArray(apiErrors)) {
+        apiErrors.map((err) => {
+          setError(err.field as keyof ForgotPasswordPayload, {
+            type: "manual",
+            message: err.message,
+          });
         });
-      });
+      }
     }
-  }, [error, setError]);
+  };
 
   return (
     <ForgotPasswordFormComponent

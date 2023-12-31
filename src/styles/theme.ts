@@ -218,6 +218,19 @@ theme = createTheme(theme, {
         },
       },
     },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          fontSize: "0.875rem", // 14px
+          fontWeight: "bold",
+          marginBottom: "0.5rem",
+          [theme.breakpoints.down("md")]: {
+            fontSize: "0.8rem", // 12.8px
+            marginBottom: "0.25rem",
+          },
+        },
+      },
+    },
     MuiDivider: {
       styleOverrides: {
         root: {

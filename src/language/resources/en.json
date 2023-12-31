@@ -11,7 +11,8 @@
     "errors": {
       "requiredField": "{{fieldName}} is a required field",
       "minAmountOfCharacters": "{{fieldName}} must be at least {{number}} characters",
-      "maxAmountOfCharacters": "{{fieldName}} must be at most {{number}} characters"
+      "maxAmountOfCharacters": "{{fieldName}} must be at most {{number}} characters",
+      "atLeastOneNumber": "{{fieldName}} must contain at least one number"
     },
     "auth": {
       "signIn": {

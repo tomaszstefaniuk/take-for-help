@@ -1,11 +1,14 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import { SerializedError } from "@reduxjs/toolkit";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { useRouter } from "next/router";
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { getErrors } from "@/helpers/apiHelpers";
 import { useLanguage } from "@/language";
 import { useNotification } from "@/providers";
+import { NotificationSeverity } from "@/providers/Notification/Notification";
 import { useResetPasswordMutation } from "@/redux/features/auth";
 import { ResetPasswordPayload } from "@/types";
 import { ResetPasswordFormComponent } from "./ResetPasswordFormComponent";
@@ -68,32 +71,34 @@ export const ResetPasswordFormContainer: FC = () => {
       },
     });
 
-  const [resetPassword, { data, isSuccess, error, isLoading }] =
-    useResetPasswordMutation();
+  const [resetPassword, { error, isLoading }] = useResetPasswordMutation();
 
-  const onSubmit: SubmitHandler<ResetPasswordFormData> = (data) => {
-    resetPassword({ ...data, resetToken: String(query.token) });
-  };
-
-  useEffect(() => {
-    if (isSuccess) {
+  const onSubmit: SubmitHandler<ResetPasswordFormData> = async (values) => {
+    try {
+      const data = await resetPassword({
+        ...values,
+        resetToken: String(query.token),
+      }).unwrap();
       push("/");
-      showNotification(`${data?.message}. You can log in now.`, "success");
-    }
-  }, [isSuccess, data?.message]);
+      showNotification(
+        `${data?.message}. You can log in now.`,
+        NotificationSeverity.SUCCESS
+      );
+    } catch (error) {
+      const apiErrors = getErrors(
+        error as FetchBaseQueryError | SerializedError | undefined
+      );
 
-  useEffect(() => {
-    const apiErrors = getErrors(error);
-
-    if (Array.isArray(apiErrors)) {
-      apiErrors.map((err) => {
-        setError(err.field as keyof ResetPasswordFormData, {
-          type: "manual",
-          message: err.message,
+      if (Array.isArray(apiErrors)) {
+        apiErrors.map((err) => {
+          setError(err.field as keyof ResetPasswordFormData, {
+            type: "manual",
+            message: err.message,
+          });
         });
-      });
+      }
     }
-  }, [error, setError]);
+  };
 
   return (
     <ResetPasswordFormComponent

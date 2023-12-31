@@ -7,7 +7,12 @@ import React, {
   FC,
 } from "react";
 
-type NotificationSeverity = "success" | "info" | "warning" | "error";
+export enum NotificationSeverity {
+  SUCCESS = "success",
+  INFO = "info",
+  WARNING = "warning",
+  ERROR = "error",
+}
 
 type Notification = {
   isOpen: boolean;
@@ -31,12 +36,12 @@ export const NotificationProvider: FC<{ children: ReactNode }> = ({
   const [notification, setNotification] = useState<Notification>({
     isOpen: false,
     message: "",
-    severity: "info",
+    severity: NotificationSeverity.INFO,
   });
 
   const showNotification = (
     message: string,
-    severity: NotificationSeverity = "info"
+    severity: NotificationSeverity = NotificationSeverity.INFO
   ) => {
     setNotification({
       isOpen: true,

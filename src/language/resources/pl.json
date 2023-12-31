@@ -9,7 +9,9 @@
     },
     "errors": {
       "requiredField": "{{fieldName}} jest wymaganym polem",
-      "maxAmountOfCharacters": "{{fieldName}} nie moze mieć więcej {{number}} znaków"
+      "maxAmountOfCharacters": "{{fieldName}} nie moze mieć więcej {{number}} znaków",
+      "minAmountOfCharacters": "{{fieldName}} nie moze mieć mniej {{number}} znaków",
+      "atLeastOneNumber": "{{fieldName}} musi zawierać przynajmniej jedną cyfrę"
     },
     "auth": {
       "signIn": {

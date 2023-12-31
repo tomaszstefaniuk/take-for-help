@@ -1,6 +1,8 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import { SerializedError } from "@reduxjs/toolkit";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { useRouter } from "next/router";
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import validator from "validator";
 import * as yup from "yup";
@@ -53,30 +55,27 @@ export const SignInFormContainer: FC = () => {
       },
     });
 
-  const [loginUser, { error, isLoading, isSuccess }] = useLoginUserMutation();
+  const [loginUser, { error, isLoading }] = useLoginUserMutation();
 
-  const onSubmit: SubmitHandler<LoginUserPayload> = (data) => {
-    loginUser(data);
-  };
-
-  useEffect(() => {
-    const apiErrors = getErrors(error);
-
-    if (Array.isArray(apiErrors)) {
-      apiErrors.map((err) => {
-        setError(err.field as keyof LoginUserPayload, {
-          type: "manual",
-          message: err.message,
-        });
-      });
-    }
-  }, [error, setError]);
-
-  useEffect(() => {
-    if (!isLoading && isSuccess) {
+  const onSubmit: SubmitHandler<LoginUserPayload> = async (values) => {
+    try {
+      await loginUser(values).unwrap();
       router.replace(router.asPath);
+    } catch (error) {
+      const apiErrors = getErrors(
+        error as FetchBaseQueryError | SerializedError | undefined
+      );
+
+      if (Array.isArray(apiErrors)) {
+        apiErrors.map((err) => {
+          setError(err.field as keyof LoginUserPayload, {
+            type: "manual",
+            message: err.message,
+          });
+        });
+      }
     }
-  }, [isLoading]);
+  };
 
   return (
     <SignInFormComponent

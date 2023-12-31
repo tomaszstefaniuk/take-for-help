@@ -20,15 +20,7 @@ const Field = (
 ) => {
   return (
     <Box>
-      <InputLabel
-        htmlFor={id}
-        color="secondary"
-        sx={{
-          fontSize: { xs: "0.8rem", md: "0.875rem" }, //xs: 12.8px, md: 14px
-          fontWeight: "bold",
-          marginBottom: { xs: 0.5, md: 1 },
-        }}
-      >
+      <InputLabel htmlFor={id} color="secondary">
         {label}
       </InputLabel>
       <Box position="relative">
