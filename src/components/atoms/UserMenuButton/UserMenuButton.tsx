@@ -45,6 +45,7 @@ export const UserMenuButton: FC<Props> = ({
           maxWidth: { xs: "30px", md: "40px" },
           maxHeight: { xs: "30px", md: "40px" },
         }}
+        data-testid="avatar-image"
       />
     </Button>
   );
