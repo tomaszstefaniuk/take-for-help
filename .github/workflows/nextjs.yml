@@ -78,10 +78,13 @@ jobs:
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
       - name: Build with Next.js
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./out
+      - name: Create out directory
+        run: mkdir ./out
+      - name: Move build output to out directory
+        run: mv ./.next ./out/.next
+        if: success()
+      - name: Display build output
+        run: ls -R ./out
 
   # Deployment job
   deploy:
