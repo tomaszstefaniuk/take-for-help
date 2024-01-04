@@ -19,7 +19,11 @@ export const UserMenuComponent: FC<Props> = ({
 }) => {
   return (
     <Box>
-      <UserMenuButton firstName="Richard" onClick={onButtonClick} />
+      <UserMenuButton
+        firstName="Richard"
+        onClick={onButtonClick}
+        data-testid="user-menu-button"
+      />
       <Menu
         anchorOrigin={{
           vertical: "bottom",
@@ -33,8 +37,13 @@ export const UserMenuComponent: FC<Props> = ({
         open={isOpen}
         onClose={closeMenu}
         sx={{ marginTop: 2.5 }}
+        data-testid="user-menu"
       >
-        <MenuItem onClick={onSignOutButtonClick} disableRipple>
+        <MenuItem
+          onClick={onSignOutButtonClick}
+          disableRipple
+          data-testid="sign-out-button"
+        >
           Sign out
         </MenuItem>
       </Menu>

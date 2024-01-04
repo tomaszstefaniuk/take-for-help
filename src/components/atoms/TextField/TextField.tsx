@@ -66,6 +66,7 @@ const Field = (
               right: "10px",
               color: "success.main",
             }}
+            data-testid="success-icon"
           />
         )}
       </Box>
