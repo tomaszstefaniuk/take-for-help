@@ -87,9 +87,9 @@ jobs:
         run: ls -R ./out
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
-          name: github-pages # This should match the expected artifact name in the deployment job
+          name: github-pages
           path: ./out
 
   # Deployment job
@@ -101,7 +101,7 @@ jobs:
     needs: build
     steps:
       - name: Download Artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: github-pages
           path: ./out
