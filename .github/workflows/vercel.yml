@@ -25,4 +25,4 @@ jobs:
         run: yarn global add vercel
 
       - name: Deploy to Vercel
-        run: vercel --token ${{ secrets.VERCEL_TOKEN }}
+        run: vercel --token ${{ secrets.VERCEL_TOKEN }} --confirm
