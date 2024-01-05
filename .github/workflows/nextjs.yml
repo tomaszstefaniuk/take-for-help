@@ -86,6 +86,12 @@ jobs:
       - name: Display build output
         run: ls -R ./out
 
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: github-pages # This should match the expected artifact name in the deployment job
+          path: ./out
+
   # Deployment job
   deploy:
     environment:
