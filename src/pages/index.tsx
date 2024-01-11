@@ -1,3 +1,4 @@
+import { parse } from "cookie";
 import { GetServerSideProps } from "next";
 import { SignInForm } from "@/components/organisms";
 import {
@@ -24,9 +25,11 @@ const MainPage: NextPageWithLayout<Props> = ({ isUserLoggedIn }: Props) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const cookies = parse(req.headers.cookie || "");
+
   return {
     props: {
-      isUserLoggedIn: req.cookies.logged_in || false,
+      isUserLoggedIn: cookies.logged_in || false,
     },
   };
 };
