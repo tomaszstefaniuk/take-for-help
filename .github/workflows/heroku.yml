@@ -27,10 +27,11 @@ jobs:
       - name: Build
         run: yarn build
 
-      - name: Deploy to Heroku
-        run: |
-          echo $HEROKU_API_KEY | heroku login --interactive
-          heroku git:remote -a take-for-help
-          git push heroku main:main
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      - name: Login to Heroku Container registry
+        run: heroku container:login
+
+      - name: Build and push
+        run: heroku container:push -a ${{ secrets.HEROKU_APP_NAME }} web
+
+      - name: Release
+        run: heroku container:release -a ${{ secrets.HEROKU_APP_NAME }} web
