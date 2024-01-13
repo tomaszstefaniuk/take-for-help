@@ -88,7 +88,7 @@ export const AuthLayout: FC<PropsWithChildren<unknown>> = ({
           <Box sx={{ height: { xs: "375px", md: "500px" } }}></Box>
           <Box color="white" maxWidth="460px">
             <Typography align="center" variant="h1" marginBottom={2.7}>
-              Fast, Efficient and Productive
+              TEST 123 Fast, Efficient and Productive
             </Typography>
             <Typography align="center" variant="body2">
               In this kind of post, the blogger introduces a person they’ve

@@ -17,7 +17,7 @@ const MyApp = ({ Component, pageProps }: AppProps & AppWithLayout) => {
   return (
     <>
       <Head>
-        <title>Take For Help</title>
+        <title>Take For Help123</title>
       </Head>
       <React.StrictMode>
         <Provider store={store}>
