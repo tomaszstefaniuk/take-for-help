@@ -29,11 +29,14 @@ jobs:
 
       - name: Set up Heroku CLI
         run: |
-          echo -e "machine api.heroku.com\n  login $HEROKU_API_KEY" > ~/.netrc
-          heroku container:login
+          echo $HEROKU_API_KEY | heroku container:login
 
       - name: Build and push
         run: heroku container:push -a ${{ secrets.HEROKU_APP_NAME }} web
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
 
       - name: Release
         run: heroku container:release -a ${{ secrets.HEROKU_APP_NAME }} web
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
