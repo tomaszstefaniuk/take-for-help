@@ -27,8 +27,10 @@ jobs:
       - name: Build
         run: yarn build
 
-      - name: Login to Heroku Container registry
-        run: heroku container:login
+      - name: Set up Heroku CLI
+        run: |
+          echo -e "machine api.heroku.com\n  login $HEROKU_API_KEY" > ~/.netrc
+          heroku container:login
 
       - name: Build and push
         run: heroku container:push -a ${{ secrets.HEROKU_APP_NAME }} web
