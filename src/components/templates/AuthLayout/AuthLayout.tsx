@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Tooltip, Typography } from "@mui/material";
 import Image from "next/image";
 import NextLink from "next/link";
 import { FC, PropsWithChildren } from "react";
@@ -46,14 +46,19 @@ export const AuthLayout: FC<PropsWithChildren<unknown>> = ({
         </Box>
         <Box component="footer" display="flex" justifyContent="center" gap={4}>
           {footerItems.map((item) => (
-            <Typography
+            <Tooltip
+              title="This feature will be available in the future"
               key={item.label}
-              variant="linkTextDark"
-              component={NextLink}
-              href="#"
             >
-              {item.label}
-            </Typography>
+              <Typography
+                variant="linkTextDark"
+                component={NextLink}
+                href="#"
+                sx={{ cursor: "default" }}
+              >
+                {item.label}
+              </Typography>
+            </Tooltip>
           ))}
         </Box>
       </Box>

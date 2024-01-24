@@ -1,8 +1,11 @@
 import { Alert, Box, Divider, Stack, Typography } from "@mui/material";
+import NextLink from "next/link";
+import { useRouter } from "next/router";
 import { FC, PropsWithChildren } from "react";
 
 import { IconApple, OutlineButton } from "@/components/atoms";
 import { FieldError } from "@/types/error";
+import { getGoogleUrl } from "@/utils/getGoogleUrl";
 
 type Props = {
   title: string;
@@ -20,6 +23,10 @@ export const AuthFormLayout: FC<PropsWithChildren<Props>> = ({
   successMessage,
   hideSocialButtons,
 }: PropsWithChildren<Props>) => {
+  const router = useRouter();
+
+  const { pathname } = router;
+
   return (
     <Box
       display="flex"
@@ -47,18 +54,24 @@ export const AuthFormLayout: FC<PropsWithChildren<Props>> = ({
             marginBottom={4.25}
             sx={{ flexDirection: { xs: "column", md: "row" } }}
           >
+            <NextLink href={getGoogleUrl(pathname)}>
+              <OutlineButton
+                startIcon={
+                  <Box
+                    component="img"
+                    src="/icons/google-icon.svg"
+                    height="15px"
+                  />
+                }
+              >
+                Sign in with Google
+              </OutlineButton>
+            </NextLink>
             <OutlineButton
-              startIcon={
-                <Box
-                  component="img"
-                  src="/icons/google-icon.svg"
-                  height="15px"
-                />
-              }
+              startIcon={<IconApple />}
+              disabled
+              title="This feature will be available in the future"
             >
-              Sign in with Google
-            </OutlineButton>
-            <OutlineButton startIcon={<IconApple />}>
               Sign in with Apple
             </OutlineButton>
           </Box>
