@@ -23,9 +23,7 @@ export const AuthFormLayout: FC<PropsWithChildren<Props>> = ({
   successMessage,
   hideSocialButtons,
 }: PropsWithChildren<Props>) => {
-  const router = useRouter();
-
-  const { pathname } = router;
+  const { pathname } = useRouter();
 
   return (
     <Box
